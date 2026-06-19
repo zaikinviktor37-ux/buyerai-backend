@@ -35,7 +35,7 @@ async function initDB() {
 
 // ── Middleware ─────────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '25mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 
 function requireAuth(req, res, next) {
   const token = (req.headers.authorization || '').replace('Bearer ', '');
