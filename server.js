@@ -2,7 +2,6 @@ const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -16,8 +15,40 @@ const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 
 const PLAN_LIMITS = { free: 5, basic: 20, pro: 50, unlimited: 9999 };
 const PLAN_NAMES = { free: 'Бесплатный', basic: 'Базовый', pro: 'Про', unlimited: 'Безлимит' };
+const PRO_PLANS = ['pro', 'unlimited'];
 
-// ── Init Database ──────────────────────────────────────────────────────────────
+// ── Live FX rate via CBR (CNY → USD cross rate) ──────────────────────────────
+let fxCache = { rate: null, ts: 0 };
+function parseCBRValue(xml, code) {
+  const idx = xml.indexOf(`<CharCode>${code}</CharCode>`);
+  if (idx === -1) return null;
+  const blockStart = xml.lastIndexOf('<Valute ', idx);
+  const blockEnd = xml.indexOf('</Valute>', idx);
+  const block = xml.slice(blockStart, blockEnd);
+  const nomMatch = block.match(/<Nominal>(\d+)<\/Nominal>/);
+  const valMatch = block.match(/<Value>([\d,]+)<\/Value>/);
+  if (!nomMatch || !valMatch) return null;
+  return parseFloat(valMatch[1].replace(',', '.')) / parseFloat(nomMatch[1]);
+}
+async function getCnyToUsdRate() {
+  const TTL = 12 * 60 * 60 * 1000;
+  if (fxCache.rate && (Date.now() - fxCache.ts) < TTL) return fxCache.rate;
+  try {
+    const r = await fetch('https://www.cbr.ru/scripts/XML_daily.asp');
+    const xml = await r.text();
+    const usdRub = parseCBRValue(xml, 'USD');
+    const cnyRub = parseCBRValue(xml, 'CNY');
+    if (usdRub && cnyRub) {
+      const rate = cnyRub / usdRub;
+      fxCache = { rate, ts: Date.now() };
+      return rate;
+    }
+  } catch (e) { console.error('CBR fetch failed:', e.message); }
+  return fxCache.rate || 0.139; // fallback approx if CBR unreachable
+}
+function toUsd(cny, rate) { return Math.round(cny * rate * 100) / 100; }
+
+// ── Init Database ─────────────────────────────────────────────────────────
 async function initDB() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -33,7 +64,7 @@ async function initDB() {
   console.log('✅ Database ready');
 }
 
-// ── Middleware ─────────────────────────────────────────────────────────────────
+// ── Middleware ────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '25mb' }));
 app.use(express.static(__dirname));
 
@@ -60,7 +91,7 @@ async function resetIfNewDay(userId) {
   return user;
 }
 
-// ── Auth Routes ────────────────────────────────────────────────────────────────
+// ── Auth Routes ───────────────────────────────────────────────────────────
 app.post('/api/register', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -109,7 +140,7 @@ app.get('/api/me', requireAuth, async (req, res) => {
   }
 });
 
-// ── Analyze Route ──────────────────────────────────────────────────────────────
+// ── Analyze Route ─────────────────────────────────────────────────────────
 app.post('/api/analyze', requireAuth, async (req, res) => {
   try {
     const user = await resetIfNewDay(req.user.id);
@@ -130,7 +161,7 @@ app.post('/api/analyze', requireAuth, async (req, res) => {
 
 {"productName":"Russian name 2-4 words","productNameCN":"Chinese characters name","category":"category in Russian","material":"main material in Russian","style":"design style in Russian e.g. Японский минимализм","application":"use cases in Russian max 3 separated by · symbol","confidence":95,
 "region":{"cluster":"Chinese city/region name e.g. Yiwu, Zhejiang","reason":"1 sentence in Russian explaining WHY this region dominates production of this product type — mention the industrial cluster specialization"},
-"priceAnalysis":{"wholesaleLow":8.5,"wholesaleHigh":15.8,"wholesaleAvg":11.2,"unit":"USD","verdict":"Russian text: e.g. Среднерыночная цена / Выгодное предложение / Завышенная цена — based on category typical margins"},
+"priceAnalysis":{"wholesaleLow":8.5,"wholesaleHigh":15.8,"wholesaleAvg":11.2,"unit":"CNY","verdict":"Russian text: e.g. Среднерыночная цена / Выгодное предложение / Завышенная цена — based on category typical margins"},
 "keywords":{"cn":["keyword1","keyword2","keyword3","keyword4"],"en":["keyword1","keyword2","keyword3"]},
 "suppliers":[
 {"name":"Realistic Chinese manufacturer company name matching the region cluster","type":"manufacturer","regionMatch":true,"rating":4.8,"reviews":3214,"monthlySales":"42,800","priceMin":8.5,"priceMax":15.8,"priceVsAvg":"below","moq":"200 шт","capital":"300万","years":9,"location":"Yiwu, Zhejiang","staff":"50–100","cert":"ISO 9001","managerName":"Realistic Chinese name e.g. 王经理 (Wang)","managerPhone":"+86 138-XXXX-XXXX realistic format"},
@@ -142,7 +173,7 @@ app.post('/api/analyze', requireAuth, async (req, res) => {
 "outreachMessageCN":"A polite, professional WeChat/1688 message IN CHINESE asking: are you the actual manufacturer or a trading company, what is your MOQ, and please share contact details. Keep it short, 3-4 sentences, business tone.",
 "outreachMessageRU":"Russian translation of the same message for the user's reference"}
 
-Return exactly 5 suppliers (4 manufacturers + 1 trader, OR adjust realistically). Use realistic Chinese company names, cities, pricing, and manager names appropriate for THIS specific product type and its real-world manufacturing region.`;
+All prices (wholesaleLow/High/Avg and every supplier's priceMin/priceMax) MUST be in Chinese Yuan (CNY) and consistent in magnitude with each other. Return exactly 5 suppliers (4 manufacturers + 1 trader). Use realistic Chinese company names, cities, pricing, and manager names appropriate for THIS specific product type and its real-world manufacturing region.`;
 
     const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -159,6 +190,21 @@ Return exactly 5 suppliers (4 manufacturers + 1 trader, OR adjust realistically)
     const txt = apiData.content.filter(b => b.type === 'text').map(b => b.text).join('');
     const result = JSON.parse(txt.replace(/```json|```/g, '').trim());
 
+    // Attach live CNY→USD conversion (CBR cross-rate)
+    const rate = await getCnyToUsdRate();
+    if (result.priceAnalysis) {
+      result.priceAnalysis.usdLow = toUsd(result.priceAnalysis.wholesaleLow, rate);
+      result.priceAnalysis.usdHigh = toUsd(result.priceAnalysis.wholesaleHigh, rate);
+      result.priceAnalysis.usdAvg = toUsd(result.priceAnalysis.wholesaleAvg, rate);
+    }
+    if (Array.isArray(result.suppliers)) {
+      result.suppliers.forEach(s => {
+        if (s.priceMin != null) s.usdMin = toUsd(s.priceMin, rate);
+        if (s.priceMax != null) s.usdMax = toUsd(s.priceMax, rate);
+      });
+    }
+    result.fxRate = rate;
+
     await pool.query('UPDATE users SET daily_count = daily_count + 1 WHERE id = $1', [user.id]);
 
     res.json({ ...result, usage: { count: user.daily_count + 1, limit, plan: user.plan } });
@@ -168,7 +214,78 @@ Return exactly 5 suppliers (4 manufacturers + 1 trader, OR adjust realistically)
   }
 });
 
-// ── Start ──────────────────────────────────────────────────────────────────────
+// ── Generate Ozon Card (free bonus — does not consume daily limit) ─────────
+app.post('/api/generate-card', requireAuth, async (req, res) => {
+  try {
+    if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API ключ не настроен на сервере' });
+    const { productName, productNameCN, category, material, style, application } = req.body;
+    if (!productName) return res.status(400).json({ error: 'Нет данных о товаре' });
+
+    const prompt = `You are an expert Russian e-commerce copywriter specializing in Ozon/Wildberries product listings. Based on this product data, write a high-converting Ozon product card. Return ONLY raw JSON (no markdown, no backticks):
+{"title":"SEO title for Ozon, max 60 chars, in Russian, includes key search terms","shortDescription":"1-2 sentence hook in Russian","bullets":["feature 1 in Russian","feature 2","feature 3","feature 4"],"fullDescription":"3-4 paragraph persuasive Russian description for the Ozon card, selling benefits not just specs, written in natural Russian marketplace style","seoKeywords":["keyword1","keyword2","keyword3","keyword4","keyword5"]}
+
+Product: ${productName} (${productNameCN || ''}). Category: ${category || ''}. Material: ${material || ''}. Style: ${style || ''}. Use cases: ${application || ''}.`;
+
+    const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1200, messages: [{ role: 'user', content: prompt }] })
+    });
+    if (!apiRes.ok) {
+      const e = await apiRes.json().catch(() => ({}));
+      throw new Error(e.error?.message || 'Anthropic API error ' + apiRes.status);
+    }
+    const apiData = await apiRes.json();
+    const txt = apiData.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const result = JSON.parse(txt.replace(/```json|```/g, '').trim());
+    res.json(result);
+  } catch (e) {
+    console.error('Generate-card error:', e.message);
+    res.status(500).json({ error: e.message || 'Ошибка генерации карточки' });
+  }
+});
+
+// ── Market Fit Analysis — Pro tier only ──────────────────────────────────────
+app.post('/api/market-fit', requireAuth, async (req, res) => {
+  try {
+    const user = await resetIfNewDay(req.user.id);
+    if (!PRO_PLANS.includes(user.plan)) {
+      return res.status(403).json({
+        error: 'Анализ маркетплейсов доступен на тарифе «Про» и выше. Напиши @VIKTOR_CN1 в Telegram для апгрейда.',
+        upgradeRequired: true
+      });
+    }
+    if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API ключ не настроен на сервере' });
+    const { productName, category, material, style, application, priceAnalysis } = req.body;
+    if (!productName) return res.status(400).json({ error: 'Нет данных о товаре' });
+
+    const priceHint = priceAnalysis ? `Wholesale price range: $${priceAnalysis.usdLow}-${priceAnalysis.usdHigh} (¥${priceAnalysis.wholesaleLow}-${priceAnalysis.wholesaleHigh}).` : '';
+
+    const prompt = `You are a senior e-commerce market analyst. Based on your general training knowledge of market trends (this is an ESTIMATE, not live marketplace scraping — be calibrated and honest), assess this product's sales potential on 4 platforms. Return ONLY raw JSON (no markdown, no backticks):
+{"platforms":[{"name":"eBay","verdict":"Высокий потенциал / Средний / Низкий","reason":"1 sentence in Russian"},{"name":"Shopify / дропшиппинг","verdict":"...","reason":"..."},{"name":"Wildberries","verdict":"...","reason":"..."},{"name":"Ozon","verdict":"...","reason":"..."}],"competitionScore":7,"competitionLabel":"Russian label e.g. Высокая конкуренция / Средняя конкуренция / Низкая конкуренция","summary":"2-3 sentences in Russian summarizing overall market fit and a practical recommendation"}
+
+Product: ${productName}. Category: ${category||''}. Material: ${material||''}. Style: ${style||''}. Use cases: ${application||''}. ${priceHint}`;
+
+    const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 900, messages: [{ role: 'user', content: prompt }] })
+    });
+    if (!apiRes.ok) {
+      const e = await apiRes.json().catch(() => ({}));
+      throw new Error(e.error?.message || 'Anthropic API error ' + apiRes.status);
+    }
+    const apiData = await apiRes.json();
+    const txt = apiData.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const result = JSON.parse(txt.replace(/```json|```/g, '').trim());
+    res.json(result);
+  } catch (e) {
+    console.error('Market-fit error:', e.message);
+    res.status(500).json({ error: e.message || 'Ошибка анализа' });
+  }
+});
+
+// ── Start ─────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 initDB().then(() => {
   app.listen(PORT, () => console.log(`🚀 BuyerAI running on port ${PORT}`));
