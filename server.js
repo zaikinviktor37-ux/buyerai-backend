@@ -35,7 +35,7 @@ async function initDB() {
 
 // ── Middleware ─────────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '25mb' }));
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function requireAuth(req, res, next) {
   const token = (req.headers.authorization || '').replace('Bearer ', '');
@@ -126,14 +126,28 @@ app.post('/api/analyze', requireAuth, async (req, res) => {
     if (!image) return res.status(400).json({ error: 'Нет изображения' });
     if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API ключ не настроен на сервере' });
 
-    const prompt = `Analyze this product image for a China B2B sourcing app. Return ONLY a raw JSON object (no markdown, no backticks, just valid JSON):
-{"productName":"Russian name 2-4 words","productNameCN":"Chinese characters name","category":"category in Russian","material":"main material in Russian","style":"design style in Russian e.g. Японский минимализм","application":"use cases in Russian max 3 separated by · symbol","confidence":95,"keywords":{"cn":["keyword1","keyword2","keyword3","keyword4"],"en":["keyword1","keyword2","keyword3"]},"suppliers":[{"name":"Realistic Chinese manufacturer company name","type":"manufacturer","rating":4.8,"reviews":3214,"monthlySales":"42,800","priceMin":8.5,"priceMax":15.8,"moq":"200 шт","capital":"300万","years":9,"location":"Yiwu, Zhejiang","staff":"50–100","cert":"ISO 9001"},{"name":"Second realistic Chinese manufacturer","type":"manufacturer","rating":4.7,"reviews":1876,"monthlySales":"28,400","priceMin":10.2,"priceMax":18.5,"moq":"100 шт","capital":"500万","years":12,"location":"Ningbo, Zhejiang","staff":"100–200","cert":""},{"name":"Chinese trading company","type":"trader","rating":4.5,"reviews":892,"priceMin":15.0,"priceMax":28.0,"years":4,"location":"Guangzhou, GD"}]}
-Use realistic Chinese company names, cities, and pricing appropriate for THIS specific product type.`;
+    const prompt = `You are an expert China sourcing analyst with deep knowledge of Chinese manufacturing clusters (e.g. Yiwu = small commodities/daily goods, Shenzhen/Zhongshan/Dongguan = electronics/lighting, Foshan/Shunde = furniture/appliances, Jieyang/Yangjiang = stainless steel/hardware, Quanzhou/Jinjiang = shoes/textiles, Ningbo = plastics/molds, Guangzhou = apparel/leather goods, Wenzhou = eyewear/lighters/locks). Analyze this product image for a China B2B sourcing app and return ONLY a raw JSON object (no markdown, no backticks, just valid JSON) with this EXACT structure:
+
+{"productName":"Russian name 2-4 words","productNameCN":"Chinese characters name","category":"category in Russian","material":"main material in Russian","style":"design style in Russian e.g. Японский минимализм","application":"use cases in Russian max 3 separated by · symbol","confidence":95,
+"region":{"cluster":"Chinese city/region name e.g. Yiwu, Zhejiang","reason":"1 sentence in Russian explaining WHY this region dominates production of this product type — mention the industrial cluster specialization"},
+"priceAnalysis":{"wholesaleLow":8.5,"wholesaleHigh":15.8,"wholesaleAvg":11.2,"unit":"USD","verdict":"Russian text: e.g. Среднерыночная цена / Выгодное предложение / Завышенная цена — based on category typical margins"},
+"keywords":{"cn":["keyword1","keyword2","keyword3","keyword4"],"en":["keyword1","keyword2","keyword3"]},
+"suppliers":[
+{"name":"Realistic Chinese manufacturer company name matching the region cluster","type":"manufacturer","regionMatch":true,"rating":4.8,"reviews":3214,"monthlySales":"42,800","priceMin":8.5,"priceMax":15.8,"priceVsAvg":"below","moq":"200 шт","capital":"300万","years":9,"location":"Yiwu, Zhejiang","staff":"50–100","cert":"ISO 9001","managerName":"Realistic Chinese name e.g. 王经理 (Wang)","managerPhone":"+86 138-XXXX-XXXX realistic format"},
+{"name":"Second manufacturer matching region","type":"manufacturer","regionMatch":true,"rating":4.7,"reviews":1876,"monthlySales":"28,400","priceMin":10.2,"priceMax":18.5,"priceVsAvg":"average","moq":"100 шт","capital":"500万","years":12,"location":"Ningbo, Zhejiang","staff":"100–200","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 139-XXXX-XXXX"},
+{"name":"Third manufacturer","type":"manufacturer","regionMatch":true,"rating":4.6,"reviews":1502,"monthlySales":"19,300","priceMin":9.0,"priceMax":16.0,"priceVsAvg":"below","moq":"300 шт","capital":"200万","years":6,"location":"matching region city","staff":"30–50","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 137-XXXX-XXXX"},
+{"name":"Fourth manufacturer, possibly from a DIFFERENT region (set regionMatch false) if realistic","type":"manufacturer","regionMatch":false,"rating":4.5,"reviews":980,"monthlySales":"12,100","priceMin":12.0,"priceMax":20.0,"priceVsAvg":"above","moq":"500 шт","capital":"150万","years":4,"location":"a plausible but non-primary region","staff":"20–50","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 136-XXXX-XXXX"},
+{"name":"Chinese trading company (not factory)","type":"trader","regionMatch":false,"rating":4.5,"reviews":892,"priceMin":15.0,"priceMax":28.0,"priceVsAvg":"above","years":4,"location":"Guangzhou, GD","managerName":"Realistic Chinese name","managerPhone":"+86 135-XXXX-XXXX"}
+],
+"outreachMessageCN":"A polite, professional WeChat/1688 message IN CHINESE asking: are you the actual manufacturer or a trading company, what is your MOQ, and please share contact details. Keep it short, 3-4 sentences, business tone.",
+"outreachMessageRU":"Russian translation of the same message for the user's reference"}
+
+Return exactly 5 suppliers (4 manufacturers + 1 trader, OR adjust realistically). Use realistic Chinese company names, cities, pricing, and manager names appropriate for THIS specific product type and its real-world manufacturing region.`;
 
     const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: [{ type: 'image', source: { type: 'base64', media_type: mediaType, data: image } }, { type: 'text', text: prompt }] }] })
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 2200, messages: [{ role: 'user', content: [{ type: 'image', source: { type: 'base64', media_type: mediaType, data: image } }, { type: 'text', text: prompt }] }] })
     });
 
     if (!apiRes.ok) {
