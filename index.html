@@ -8,140 +8,177 @@
 <title>BuyerAI — Найди производителя</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh;display:flex;justify-content:center}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F1F1F4;min-height:100vh;display:flex;justify-content:center;color:#15171C}
 .wrap{width:100%;max-width:430px;background:#fff;min-height:100vh}
-@media(min-width:480px){.wrap{border-radius:24px;margin:24px auto;min-height:auto;box-shadow:0 8px 40px rgba(0,0,0,0.14)}}
+@media(min-width:480px){.wrap{border-radius:28px;margin:24px auto;min-height:auto;box-shadow:0 12px 50px rgba(0,0,0,0.16)}}
 /* HEADER */
-.hdr{background:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0;position:sticky;top:0;z-index:10}
-.logo{font-size:17px;font-weight:700;color:#378ADD;flex:1;letter-spacing:-0.3px}
-.usage-pill{font-size:11px;background:#E6F1FB;color:#185FA5;padding:4px 10px;border-radius:20px;font-weight:600;cursor:default}
-.usage-pill.warn{background:#FEF3E8;color:#B84A1A}
+.hdr{background:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #F0F0F2;position:sticky;top:0;z-index:10}
+.logo{font-size:18px;font-weight:800;color:#15171C;flex:1;letter-spacing:-0.5px}
+.logo span{color:#2F5FE0}
+.usage-pill{font-size:11px;background:#EAF0FE;color:#2F5FE0;padding:5px 11px;border-radius:20px;font-weight:700;cursor:default;letter-spacing:0.2px}
+.usage-pill.warn{background:#FFF1E0;color:#B6580A}
 .usage-pill.full{background:#FEECEC;color:#CC2222}
-.btn-back{background:none;border:none;color:#378ADD;font-size:24px;cursor:pointer;padding:0;line-height:1;display:none}
-.btn-logout{background:none;border:none;color:#bbb;font-size:20px;cursor:pointer;padding:0;line-height:1;display:none}
+.btn-back{background:none;border:none;color:#15171C;font-size:22px;cursor:pointer;padding:0;line-height:1;display:none;font-weight:700}
+.btn-logout{background:none;border:none;color:#bbb;font-size:19px;cursor:pointer;padding:0;line-height:1;display:none}
 /* AUTH */
-.auth{padding:40px 24px 28px;text-align:center}
-.auth-logo{width:80px;height:80px;background:linear-gradient(135deg,#E6F1FB,#B5D4F4);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:40px}
-.auth h2{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
-.auth-sub{font-size:13px;color:#888;margin-bottom:28px;line-height:1.5}
-.auth-tabs{display:flex;gap:0;border-radius:12px;background:#f0f2f5;padding:3px;margin-bottom:22px}
-.auth-tab{flex:1;padding:9px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;border:none;background:transparent;color:#888;transition:all 0.15s}
-.auth-tab.on{background:#fff;color:#378ADD;box-shadow:0 1px 6px rgba(0,0,0,0.08);font-weight:600}
+.auth{padding:0 0 28px;text-align:center}
+.auth-hero{background:linear-gradient(135deg,#FFE8CF 0%,#FFD6E8 55%,#F4D9FF 100%);padding:46px 24px 36px;border-radius:0 0 32px 32px;margin-bottom:26px}
+.auth-logo{width:84px;height:84px;background:#fff;border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:38px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.auth h2{font-size:24px;font-weight:800;color:#15171C;margin-bottom:6px;letter-spacing:-0.6px}
+.auth-sub{font-size:13px;color:#5b5b66;line-height:1.5}
+.auth-body{padding:0 24px}
+.auth-tabs{display:flex;gap:0;border-radius:14px;background:#F1F1F4;padding:4px;margin-bottom:22px}
+.auth-tab{flex:1;padding:10px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;border:none;background:transparent;color:#888;transition:all 0.15s}
+.auth-tab.on{background:#fff;color:#15171C;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-weight:700}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:left}
-.field label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
-.field input{padding:13px 14px;border:1.5px solid #e8e8e8;border-radius:12px;font-size:15px;outline:none;color:#1a1a2e;background:#fff;transition:border-color 0.15s}
-.field input:focus{border-color:#378ADD;box-shadow:0 0 0 3px rgba(55,138,221,0.1)}
-.auth-error{background:#FEECEC;color:#CC2222;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none;text-align:left}
-.btn-main{width:100%;padding:15px;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:#378ADD;color:#fff;letter-spacing:-0.2px;transition:opacity 0.15s;margin-bottom:6px}
+.field label{font-size:10px;color:#9a9aa3;font-weight:700;text-transform:uppercase;letter-spacing:0.6px}
+.field input{padding:14px 15px;border:1.5px solid #ECECEF;border-radius:14px;font-size:15px;outline:none;color:#15171C;background:#fff;transition:border-color 0.15s}
+.field input:focus{border-color:#2F5FE0;box-shadow:0 0 0 4px rgba(47,95,224,0.1)}
+.auth-error{background:#FEECEC;color:#CC2222;border-radius:12px;padding:11px 14px;font-size:13px;margin-bottom:14px;display:none;text-align:left;font-weight:500}
+.btn-main{width:100%;padding:16px;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;border:none;background:#15171C;color:#fff;letter-spacing:-0.1px;transition:opacity 0.15s;margin-bottom:6px}
 .btn-main:active{opacity:0.85}
-.btn-main:disabled{opacity:0.6;cursor:not-allowed}
+.btn-main:disabled{opacity:0.5;cursor:not-allowed}
 /* HOME */
-.home{padding:32px 22px 28px;text-align:center}
-.hero{width:88px;height:88px;background:linear-gradient(135deg,#E6F1FB,#B5D4F4);border-radius:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:42px}
-.home h2{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:8px;letter-spacing:-0.5px}
-.home-sub{font-size:14px;color:#666;line-height:1.65;margin-bottom:28px}
-.upload-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:16px;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:#378ADD;color:#fff;margin-bottom:10px;transition:opacity 0.15s}
+.home{padding:0 0 28px;text-align:center}
+.home-hero{background:linear-gradient(135deg,#FFE8CF 0%,#FFD6E8 55%,#F4D9FF 100%);padding:42px 24px 34px;border-radius:0 0 32px 32px;margin-bottom:24px}
+.hero{width:92px;height:92px;background:#fff;border-radius:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:42px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.home h2{font-size:23px;font-weight:800;color:#15171C;margin-bottom:8px;letter-spacing:-0.6px}
+.home-sub{font-size:13.5px;color:#5b5b66;line-height:1.6}
+.home-body{padding:0 22px}
+.upload-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:17px;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;border:none;background:#15171C;color:#fff;margin-bottom:10px;transition:opacity 0.15s}
 .upload-btn:active{opacity:0.85}
-.upload-btn-sec{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:14px;border-radius:14px;font-size:14px;cursor:pointer;background:#fff;color:#378ADD;border:1.5px solid #378ADD;margin-bottom:20px;font-weight:500;transition:opacity 0.15s}
-.upload-btn-sec:active{opacity:0.75}
-.features{background:#f7f9fc;border-radius:16px;padding:18px;text-align:left;display:flex;flex-direction:column;gap:13px;border:1px solid #eee}
+.upload-btn-sec{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:14px;border-radius:16px;font-size:14px;cursor:pointer;background:#fff;color:#15171C;border:1.5px solid #E4E4E8;margin-bottom:22px;font-weight:600;transition:opacity 0.15s}
+.upload-btn-sec:active{opacity:0.7}
+.features{background:#F8F8FA;border-radius:18px;padding:18px;text-align:left;display:flex;flex-direction:column;gap:13px;border:1px solid #F0F0F2}
 .feat{display:flex;gap:12px;align-items:center}
-.feat-icon{width:36px;height:36px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
-.feat-txt{font-size:13px;color:#444;line-height:1.4}
-.limit-banner{background:#FEF3E8;border:1px solid #FFD4A8;border-radius:12px;padding:14px 16px;text-align:left;margin-top:16px}
-.limit-banner h4{font-size:13px;font-weight:600;color:#B84A1A;margin-bottom:4px}
+.feat-icon{width:38px;height:38px;background:#fff;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
+.feat-txt{font-size:13px;color:#3d3d44;line-height:1.4;font-weight:500}
+.limit-banner{background:#FFF1E0;border:1px solid #FFD9A8;border-radius:14px;padding:14px 16px;text-align:left;margin-top:16px}
+.limit-banner h4{font-size:13px;font-weight:700;color:#B6580A;margin-bottom:4px}
 .limit-banner p{font-size:12px;color:#8B5E3C;line-height:1.5}
 /* LOADING */
-.loading{padding:60px 24px;text-align:center}
-.spin{width:56px;height:56px;border:3px solid #E6F1FB;border-top-color:#378ADD;border-radius:50%;animation:spin 0.75s linear infinite;margin:0 auto 22px}
+.loading{padding:64px 24px;text-align:center}
+.spin{width:54px;height:54px;border:3px solid #EAF0FE;border-top-color:#2F5FE0;border-radius:50%;animation:spin 0.75s linear infinite;margin:0 auto 22px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading h3{font-size:17px;font-weight:600;color:#1a1a2e;margin-bottom:8px}
+.loading h3{font-size:17px;font-weight:800;color:#15171C;margin-bottom:8px}
 .loading-msg{font-size:13px;color:#888;margin-bottom:28px;min-height:20px}
-.steps-list{background:#f7f9fc;border-radius:14px;padding:16px 18px;text-align:left;display:flex;flex-direction:column;gap:11px;border:1px solid #eee}
-.step-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#bbb}
-.step-item.done{color:#1D9E75}.step-item.active{color:#378ADD;font-weight:500}
+.steps-list{background:#F8F8FA;border-radius:16px;padding:17px 18px;text-align:left;display:flex;flex-direction:column;gap:12px;border:1px solid #F0F0F2}
+.step-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#bbb;font-weight:500}
+.step-item.done{color:#16A34A}.step-item.active{color:#2F5FE0;font-weight:700}
 /* DETECT VIEW */
-.detect-view{background:#0d0d1a;padding:14px 12px}
-.img-wrap{position:relative;border-radius:12px;overflow:hidden}
+.detect-view{background:#0e0e14;padding:14px 12px}
+.img-wrap{position:relative;border-radius:16px;overflow:hidden}
 .img-wrap img{width:100%;max-height:260px;object-fit:cover;display:block}
-.det-border{position:absolute;inset:0;border:2px dashed #378ADD;border-radius:12px;pointer-events:none}
-.corner{position:absolute;width:20px;height:20px;border-color:#378ADD;border-style:solid}
+.det-border{position:absolute;inset:0;border:2px dashed #2F5FE0;border-radius:16px;pointer-events:none}
+.corner{position:absolute;width:20px;height:20px;border-color:#2F5FE0;border-style:solid}
 .tl{top:8px;left:8px;border-width:3px 0 0 3px;border-radius:4px 0 0 0}
 .tr{top:8px;right:8px;border-width:3px 3px 0 0;border-radius:0 4px 0 0}
 .bl{bottom:8px;left:8px;border-width:0 0 3px 3px;border-radius:0 0 0 4px}
 .br{bottom:8px;right:8px;border-width:0 3px 3px 0;border-radius:0 0 4px 0}
-.scanl{position:absolute;left:0;right:0;height:2px;background:#378ADD;animation:scan 2.2s linear infinite;pointer-events:none}
+.scanl{position:absolute;left:0;right:0;height:2px;background:#2F5FE0;animation:scan 2.2s linear infinite;pointer-events:none}
 @keyframes scan{0%{top:0;opacity:0}6%{opacity:.8}90%{opacity:.8}100%{top:100%;opacity:0}}
-.conf-badge{position:absolute;bottom:10px;right:10px;background:#378ADD;color:#fff;font-size:11px;font-weight:700;padding:4px 11px;border-radius:7px}
-.detect-status{text-align:center;margin-top:10px;font-size:12px;color:#378ADD;font-weight:600}
+.conf-badge{position:absolute;bottom:10px;right:10px;background:#15171C;color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:9px}
+.detect-status{text-align:center;margin-top:10px;font-size:12px;color:#2F5FE0;font-weight:700}
 /* PRODUCT INFO */
-.product-info{padding:16px 16px 14px;border-bottom:1px solid #f0f0f0}
-.prod-name{font-size:20px;font-weight:700;color:#1a1a2e;margin-bottom:3px;letter-spacing:-0.5px}
+.product-info{padding:18px 16px 16px;border-bottom:1px solid #F0F0F2}
+.prod-name{font-size:21px;font-weight:800;color:#15171C;margin-bottom:3px;letter-spacing:-0.6px}
 .prod-cn{font-size:13px;color:#aaa;margin-bottom:3px}
-.prod-sub{font-size:12px;color:#bbb;margin-bottom:15px}
-.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
-.param{background:#f7f9fc;border-radius:11px;padding:10px 13px;border:1px solid #f0f0f0}
-.param-l{font-size:10px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px}
-.param-v{font-size:12px;font-weight:600;color:#1a1a2e;line-height:1.3}
-.kw-label{font-size:10px;color:#bbb;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px}
-.kw-row{display:flex;gap:5px;flex-wrap:wrap}
-.kw{font-size:11px;padding:4px 10px;border-radius:20px;background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4;font-weight:500}
+.prod-sub{font-size:12px;color:#9a9aa3;margin-bottom:16px;font-weight:500}
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.param{background:#F8F8FA;border-radius:13px;padding:11px 14px;border:1px solid #F0F0F2}
+.param-l{font-size:9.5px;color:#9a9aa3;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.param-v{font-size:12.5px;font-weight:700;color:#15171C;line-height:1.3}
+.kw-label{font-size:9.5px;color:#9a9aa3;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:9px}
+.kw-row{display:flex;gap:6px;flex-wrap:wrap}
+.kw{font-size:11px;padding:5px 11px;border-radius:20px;background:#EAF0FE;color:#2F5FE0;font-weight:600}
 /* REGION & PRICE ANALYSIS */
-.insight-block{margin:0 16px 14px;border-radius:14px;padding:13px 15px;border:1px solid #f0f0f0}
-.insight-region{background:#F4F8FC}
-.insight-price{background:#FAF8F0}
-.insight-hd{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.insight-block{margin:14px 16px;border-radius:16px;padding:15px 16px;border:1px solid #F0F0F2}
+.insight-region{background:#F4F8FF}
+.insight-price{background:#FFFBF0}
+.insight-hd{display:flex;align-items:center;gap:7px;margin-bottom:7px}
 .insight-icon{font-size:15px}
-.insight-title{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.4px}
-.insight-main{font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
-.insight-sub{font-size:12px;color:#666;line-height:1.5}
-.price-range-row{display:flex;align-items:baseline;gap:8px;margin-bottom:5px;flex-wrap:wrap}
-.price-num{font-size:18px;font-weight:700;color:#1a1a2e}
-.price-verdict{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
-.pv-below{background:#EAF3DE;color:#2D6A14}
-.pv-average{background:#E6F1FB;color:#185FA5}
-.pv-above{background:#FEF3E8;color:#B84A1A}
+.insight-title{font-size:10.5px;font-weight:800;color:#9a9aa3;text-transform:uppercase;letter-spacing:0.5px}
+.insight-main{font-size:14.5px;font-weight:800;color:#15171C;margin-bottom:4px}
+.insight-sub{font-size:12px;color:#5b5b66;line-height:1.55;font-weight:500}
+.price-range-row{display:flex;align-items:baseline;gap:9px;margin-bottom:6px;flex-wrap:wrap}
+.price-num{font-size:19px;font-weight:800;color:#15171C}
+.price-usd{font-size:12px;color:#9a9aa3;font-weight:600}
+.price-verdict{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.3px}
+.pv-below{background:#E5F8EA;color:#16A34A}
+.pv-average{background:#EAF0FE;color:#2F5FE0}
+.pv-above{background:#FFF1E0;color:#B6580A}
 /* SUPPLIERS */
-.sup-hdr{background:#f7f9fc;padding:10px 16px;font-size:11px;color:#aaa;font-weight:600;letter-spacing:0.3px;text-transform:uppercase}
-.sups-wrap{padding:10px 12px 16px}
-.sup-card{border-radius:16px;border:1px solid #f0f0f0;overflow:hidden;margin-bottom:10px;background:#fff}
-.sup-top{padding:13px 14px;border-bottom:1px solid #f0f0f0}
-.sup-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
-.bg{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600}
-.bg-g{background:#EAF3DE;color:#2D6A14}.bg-o{background:#FEF3E8;color:#B84A1A}
-.bg-b{background:#E6F1FB;color:#185FA5}.bg-gr{background:#f4f4f4;color:#888}
-.bg-red{background:#FEECEC;color:#CC2222}
-.sup-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.sup-name{font-size:13px;font-weight:600;color:#1a1a2e;flex:1;line-height:1.3}
+.sup-hdr{padding:4px 16px 10px;font-size:10.5px;color:#9a9aa3;font-weight:800;letter-spacing:0.4px;text-transform:uppercase}
+.sups-wrap{padding:0 12px 16px}
+.sup-card{border-radius:18px;border:1px solid #F0F0F2;overflow:hidden;margin-bottom:11px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.03)}
+.sup-top{padding:14px 15px;border-bottom:1px solid #F0F0F2}
+.sup-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
+.bg{font-size:9.5px;padding:4px 10px;border-radius:20px;font-weight:800;text-transform:uppercase;letter-spacing:0.2px}
+.bg-g{background:#E5F8EA;color:#16A34A}.bg-o{background:#FFF1E0;color:#B6580A}
+.bg-b{background:#EAF0FE;color:#2F5FE0}.bg-gr{background:#F1F1F4;color:#888}
+.bg-red{background:#FEECEC;color:#CC2222}.bg-lime{background:#E3F26B;color:#3A4A0A}
+.sup-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.sup-name{font-size:13.5px;font-weight:700;color:#15171C;flex:1;line-height:1.3}
 .sup-price-box{text-align:right;flex-shrink:0}
-.sup-price{font-size:16px;font-weight:700;color:#378ADD}
-.sup-unit{font-size:10px;color:#bbb}
-.stats{display:flex;border-bottom:1px solid #f0f0f0}
-.stat{flex:1;text-align:center;padding:9px 4px;border-right:1px solid #f0f0f0}
+.sup-price{font-size:17px;font-weight:800;color:#2F5FE0}
+.sup-unit{font-size:9.5px;color:#bbb;font-weight:600}
+.sup-usd{font-size:10.5px;color:#9a9aa3;font-weight:600;margin-top:1px}
+.stats{display:flex;border-bottom:1px solid #F0F0F2}
+.stat{flex:1;text-align:center;padding:10px 4px;border-right:1px solid #F0F0F2}
 .stat:last-child{border-right:none}
-.st-v{font-size:12px;font-weight:600;color:#1a1a2e}
-.st-l{font-size:9px;color:#bbb;margin-top:2px}
-.sup-bot{padding:10px 14px;background:#f9f9f9}
-.sup-meta{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px;color:#aaa}
-.sup-manager{font-size:11px;color:#555;margin-bottom:10px;background:#fff;border:1px solid #eee;border-radius:8px;padding:7px 10px;display:flex;justify-content:space-between}
+.st-v{font-size:12px;font-weight:700;color:#15171C}
+.st-l{font-size:9px;color:#bbb;margin-top:2px;font-weight:600}
+.sup-bot{padding:11px 15px;background:#FAFAFB}
+.sup-meta{display:flex;justify-content:space-between;margin-bottom:9px;font-size:11px;color:#9a9aa3;font-weight:500}
+.sup-manager{font-size:11.5px;color:#3d3d44;margin-bottom:10px;background:#fff;border:1px solid #F0F0F2;border-radius:10px;padding:8px 11px;display:flex;justify-content:space-between;font-weight:600}
 .sup-btns{display:flex;gap:7px}
-.btn-wc{flex:1;padding:10px;border-radius:11px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:#378ADD;color:#fff}
+.btn-wc{flex:1;padding:11px;border-radius:13px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:#2F5FE0;color:#fff}
 .btn-wc:active{opacity:0.85}
-.btn-lk{flex:1;padding:10px;border-radius:11px;font-size:12px;cursor:pointer;background:#fff;color:#333;border:1px solid #e8e8e8}
+.btn-lk{flex:1;padding:11px;border-radius:13px;font-size:12px;cursor:pointer;background:#fff;color:#333;border:1px solid #E4E4E8;font-weight:600}
 .btn-lk:active{background:#f4f4f4}
 /* OUTREACH */
-.outreach-block{margin:0 12px 14px;border-radius:16px;border:1.5px solid #B5D4F4;background:#F4F8FC;padding:14px 15px}
-.outreach-hd{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.outreach-title{font-size:12px;font-weight:700;color:#185FA5}
-.outreach-text{font-size:13px;color:#333;line-height:1.6;background:#fff;border-radius:10px;padding:11px 13px;margin-bottom:6px;border:1px solid #e2eaf2}
-.outreach-text.cn{font-size:14px}
-.outreach-translate{font-size:11px;color:#888;line-height:1.5;margin-bottom:10px;font-style:italic}
-.btn-copy{width:100%;padding:11px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px}
+.outreach-block{margin:0 12px 14px;border-radius:18px;border:1.5px solid #D6E2FB;background:#F4F8FF;padding:16px}
+.outreach-hd{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.outreach-title{font-size:12px;font-weight:800;color:#2F5FE0}
+.outreach-text{font-size:13.5px;color:#15171C;line-height:1.6;background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:7px;border:1px solid #E4E4E8;font-weight:500}
+.outreach-translate{font-size:11px;color:#9a9aa3;line-height:1.5;margin-bottom:11px;font-style:italic}
+.btn-copy{width:100%;padding:12px;border-radius:13px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:#2F5FE0;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px}
 .btn-copy:active{opacity:0.85}
-.btn-copy.copied{background:#1D9E75}
-.rescan-section{padding:0 12px 24px}
-.btn-rescan{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:13px;font-size:14px;font-weight:500;cursor:pointer;background:#fff;color:#378ADD;border:1.5px solid #378ADD}
-.btn-rescan:active{opacity:0.75}
+.btn-copy.copied{background:#16A34A}
+/* EXTRA TOOLS (Ozon card / market fit) */
+.tool-block{margin:0 12px 14px;border-radius:18px;border:1px solid #F0F0F2;background:#fff;padding:16px}
+.tool-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.tool-title-row{display:flex;align-items:center;gap:7px}
+.tool-title{font-size:13px;font-weight:800;color:#15171C}
+.tool-desc{font-size:11.5px;color:#9a9aa3;margin-bottom:13px;line-height:1.5;font-weight:500}
+.btn-tool{width:100%;padding:13px;border-radius:14px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid #15171C;background:#fff;color:#15171C;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-tool:active{opacity:0.7}
+.btn-tool:disabled{opacity:0.5}
+.btn-tool.pro{border-color:#2F5FE0;color:#2F5FE0}
+.tool-result{display:none;margin-top:14px}
+.ozon-field{margin-bottom:12px}
+.ozon-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ozon-label-txt{font-size:9.5px;color:#9a9aa3;font-weight:800;text-transform:uppercase;letter-spacing:0.4px}
+.btn-mini-copy{font-size:10px;font-weight:700;color:#2F5FE0;background:#EAF0FE;border:none;border-radius:8px;padding:4px 9px;cursor:pointer}
+.btn-mini-copy.copied{background:#E5F8EA;color:#16A34A}
+.ozon-text{font-size:13px;color:#15171C;line-height:1.55;background:#F8F8FA;border-radius:11px;padding:11px 13px;font-weight:500}
+.ozon-bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
+.ozon-bullets li{font-size:12.5px;color:#15171C;background:#F8F8FA;border-radius:10px;padding:9px 12px;font-weight:500}
+.ozon-bullets li::before{content:"✓ ";color:#16A34A;font-weight:800}
+.upsell-box{background:#FFF1E0;border:1px solid #FFD9A8;border-radius:13px;padding:13px 15px;font-size:12.5px;color:#8B5E3C;line-height:1.55;font-weight:500}
+.mf-platform{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #F0F0F2}
+.mf-platform:last-child{border-bottom:none}
+.mf-pname{font-size:13px;font-weight:700;color:#15171C}
+.mf-preason{font-size:11px;color:#9a9aa3;margin-top:2px;line-height:1.4;font-weight:500}
+.mf-pverdict{font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.mf-score-row{display:flex;align-items:center;gap:10px;margin:12px 0;padding:12px;background:#F8F8FA;border-radius:13px}
+.mf-score-num{font-size:24px;font-weight:800;color:#15171C}
+.mf-score-label{font-size:11.5px;font-weight:700;color:#5b5b66}
+.mf-summary{font-size:12.5px;color:#3d3d44;line-height:1.6;font-weight:500;margin-bottom:10px}
+.mf-disclaimer{font-size:10.5px;color:#9a9aa3;line-height:1.5;font-style:italic;border-top:1px solid #F0F0F2;padding-top:10px}
+.rescan-section{padding:0 12px 28px}
+.btn-rescan{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:16px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;color:#15171C;border:1.5px solid #E4E4E8}
+.btn-rescan:active{opacity:0.7}
 </style>
 </head>
 <body>
@@ -150,55 +187,64 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <!-- HEADER -->
   <div class="hdr">
     <button class="btn-back" id="btn-back" onclick="goHome()">←</button>
-    <div class="logo">BuyerAI</div>
+    <div class="logo">Buyer<span>AI</span></div>
     <span class="usage-pill" id="usage-pill" style="display:none"></span>
     <button class="btn-logout" id="btn-logout" onclick="logout()" title="Выйти">⎋</button>
   </div>
 
   <!-- AUTH SCREEN -->
   <div id="s-auth" class="auth">
-    <div class="auth-logo">🔍</div>
-    <h2>BuyerAI</h2>
-    <p class="auth-sub">Платформа поиска производителей в Китае</p>
-    <div class="auth-tabs">
-      <button class="auth-tab on" id="tab-login" onclick="switchTab('login')">Войти</button>
-      <button class="auth-tab" id="tab-reg" onclick="switchTab('reg')">Регистрация</button>
+    <div class="auth-hero">
+      <div class="auth-logo">🔍</div>
+      <h2>BuyerAI</h2>
+      <p class="auth-sub">Платформа поиска производителей в Китае</p>
     </div>
-    <div class="auth-error" id="auth-error"></div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" onkeydown="if(e&&e.key==='Enter')doAuth()">
+    <div class="auth-body">
+      <div class="auth-tabs">
+        <button class="auth-tab on" id="tab-login" onclick="switchTab('login')">Войти</button>
+        <button class="auth-tab" id="tab-reg" onclick="switchTab('reg')">Регистрация</button>
+      </div>
+      <div class="auth-error" id="auth-error"></div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')doAuth()">
+      </div>
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" id="auth-pass" placeholder="Минимум 6 символов" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth()">
+      </div>
+      <button class="btn-main" id="auth-btn" onclick="doAuth()">Войти</button>
+      <p style="font-size:11px;color:#bbb;text-align:center;margin-top:8px" id="auth-hint">Нет аккаунта? Нажми «Регистрация»</p>
     </div>
-    <div class="field">
-      <label>Пароль</label>
-      <input type="password" id="auth-pass" placeholder="Минимум 6 символов" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth()">
-    </div>
-    <button class="btn-main" id="auth-btn" onclick="doAuth()">Войти</button>
-    <p style="font-size:11px;color:#bbb;text-align:center;margin-top:8px" id="auth-hint">Нет аккаунта? Нажми «Регистрация»</p>
   </div>
 
   <!-- HOME SCREEN -->
   <div id="s-home" class="home" style="display:none">
-    <div class="hero">📷</div>
-    <h2>Найди производителя</h2>
-    <p class="home-sub">Сфотографируй любой товар — ИИ определит что это и найдёт заводы в Китае за секунды</p>
-    <label class="upload-btn">
-      📷 Сфотографировать товар
-      <input type="file" accept="image/*" capture="environment" onchange="handleFile(event)" style="display:none">
-    </label>
-    <label class="upload-btn-sec">
-      🖼 Выбрать из галереи
-      <input type="file" accept="image/jpeg,image/png,image/webp" onchange="handleFile(event)" style="display:none">
-    </label>
-    <div class="features">
-      <div class="feat"><div class="feat-icon">🔍</div><div class="feat-txt">Определяет товар по фото — материал, стиль, категория</div></div>
-      <div class="feat"><div class="feat-icon">🏭</div><div class="feat-txt">Отличает завод от перекупщика, проверяет капитал</div></div>
-      <div class="feat"><div class="feat-icon">🇨🇳</div><div class="feat-txt">Ключевые слова на 中文 для поиска на 1688</div></div>
-      <div class="feat"><div class="feat-icon">💬</div><div class="feat-txt">Контакты WeChat менеджеров для прямой связи</div></div>
+    <div class="home-hero">
+      <div class="hero">📷</div>
+      <h2>Найди производителя</h2>
+      <p class="home-sub">Сфотографируй любой товар — ИИ определит что это и найдёт заводы в Китае за секунды</p>
     </div>
-    <div class="limit-banner" id="limit-banner" style="display:none">
-      <h4>⚠️ Лимит исчерпан на сегодня</h4>
-      <p>Напиши @VIKTOR_CN1 в Telegram или WeChat <b>Zaikin1_v</b> для апгрейда тарифа.</p>
+    <div class="home-body">
+      <label class="upload-btn">
+        📷 Сфотографировать товар
+        <input type="file" accept="image/*" capture="environment" onchange="handleFile(event)" style="display:none">
+      </label>
+      <label class="upload-btn-sec">
+        🖼 Выбрать из галереи
+        <input type="file" accept="image/jpeg,image/png,image/webp" onchange="handleFile(event)" style="display:none">
+      </label>
+      <div class="features">
+        <div class="feat"><div class="feat-icon">📍</div><div class="feat-txt">Регион производства и почему именно там</div></div>
+        <div class="feat"><div class="feat-icon">🏭</div><div class="feat-txt">5 заводов — отличает производителя от перекупщика</div></div>
+        <div class="feat"><div class="feat-icon">💰</div><div class="feat-txt">Цена в юанях с конвертацией по курсу ЦБ</div></div>
+        <div class="feat"><div class="feat-icon">📝</div><div class="feat-txt">Готовая карточка для Ozon в один клик</div></div>
+        <div class="feat"><div class="feat-icon">🌍</div><div class="feat-txt">Анализ продаж на eBay/Shopify/WB/Ozon · Pro</div></div>
+      </div>
+      <div class="limit-banner" id="limit-banner" style="display:none">
+        <h4>⚠️ Лимит исчерпан на сегодня</h4>
+        <p>Напиши @VIKTOR_CN1 в Telegram или WeChat <b>Zaikin1_v</b> для апгрейда тарифа.</p>
+      </div>
     </div>
   </div>
 
@@ -211,7 +257,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="step-item" id="st1"><span class="si">⬜</span>&nbsp;Распознаю товар по фото</div>
       <div class="step-item" id="st2"><span class="si">⬜</span>&nbsp;Анализирую регион производства</div>
       <div class="step-item" id="st3"><span class="si">⬜</span>&nbsp;Ищу 5 производителей на 1688</div>
-      <div class="step-item" id="st4"><span class="si">⬜</span>&nbsp;Сравниваю цены и проверяю компании</div>
+      <div class="step-item" id="st4"><span class="si">⬜</span>&nbsp;Сравниваю цены и курс ЦБ</div>
     </div>
   </div>
 
@@ -241,6 +287,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="kw-label">Поисковые запросы сгенерированы</div>
       <div class="kw-row" id="res-kws"></div>
     </div>
+
     <div class="insight-block insight-region" id="region-block" style="display:none">
       <div class="insight-hd"><span class="insight-icon">📍</span><span class="insight-title">Регион производства</span></div>
       <div class="insight-main" id="region-cluster"></div>
@@ -250,18 +297,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <div class="insight-hd"><span class="insight-icon">💰</span><span class="insight-title">Анализ цены (опт)</span></div>
       <div class="price-range-row">
         <span class="price-num" id="price-range"></span>
+        <span class="price-usd" id="price-range-usd"></span>
         <span class="price-verdict" id="price-verdict"></span>
       </div>
-      <div class="insight-sub">Средняя оптовая цена: <b id="price-avg"></b> / шт</div>
+      <div class="insight-sub">Средняя оптовая цена: <b id="price-avg"></b> <span id="price-avg-usd"></span> / шт</div>
     </div>
+
     <div class="sup-hdr" id="res-cnt"></div>
     <div class="sups-wrap" id="res-sups"></div>
+
     <div class="outreach-block" id="outreach-block" style="display:none">
       <div class="outreach-hd"><span class="insight-icon">📋</span><span class="outreach-title">Готовое сообщение поставщику</span></div>
-      <div class="outreach-text cn" id="outreach-cn"></div>
+      <div class="outreach-text" id="outreach-cn"></div>
       <div class="outreach-translate" id="outreach-ru"></div>
       <button class="btn-copy" id="btn-copy-outreach" onclick="copyOutreach()">📋 Скопировать на китайском</button>
     </div>
+
+    <div class="tool-block">
+      <div class="tool-hd">
+        <div class="tool-title-row"><span class="insight-icon">📝</span><span class="tool-title">Карточка для Ozon</span></div>
+      </div>
+      <div class="tool-desc">Заголовок, описание и ключевые слова для маркетплейса — на основе уже найденных данных о товаре. Бесплатно, не тратит дневной лимит.</div>
+      <button class="btn-tool" id="btn-ozon-card" onclick="loadOzonCard()">📝 Сгенерировать карточку</button>
+      <div class="tool-result" id="ozon-card-result"></div>
+    </div>
+
+    <div class="tool-block">
+      <div class="tool-hd">
+        <div class="tool-title-row"><span class="insight-icon">🌍</span><span class="tool-title">Анализ маркетплейсов</span></div>
+        <span class="bg bg-lime">PRO</span>
+      </div>
+      <div class="tool-desc">Оценка ИИ — продастся ли товар на eBay, Shopify, Wildberries, Ozon — и насколько конкурентна ниша. Это аналитическая оценка на основе общих знаний о рынке, не проверка реальных листингов в реальном времени.</div>
+      <button class="btn-tool pro" id="btn-market-fit" onclick="loadMarketFit()">🌍 Анализировать рынок</button>
+      <div class="tool-result" id="mf-result"></div>
+    </div>
+
     <div class="rescan-section">
       <label class="btn-rescan">
         📷 Сфотографировать другой товар
@@ -278,6 +348,7 @@ let imgURL = null;
 let t0 = 0;
 let isLogin = true;
 let lastOutreachCN = '';
+let lastProductData = null;
 
 async function init() {
   if (!token) { show('s-auth'); return; }
@@ -374,7 +445,6 @@ function updateUsage() {
 }
 
 function setStep(n) {
-  const labels = ['Распознаю товар по фото','Анализирую регион производства','Ищу 5 производителей на 1688','Сравниваю цены и проверяю компании'];
   for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('st'+i);
     if (!el) continue;
@@ -412,7 +482,7 @@ async function handleFile(e) {
     await delay(500);
     setStep(3); document.getElementById('load-msg').textContent = 'Ищу 5 производителей...';
     await delay(500);
-    setStep(4); document.getElementById('load-msg').textContent = 'Сравниваю цены...';
+    setStep(4); document.getElementById('load-msg').textContent = 'Считаю курс ЦБ...';
     await delay(400);
     if (data.usage) { userData = { ...userData, ...data.usage }; userData.daily_count = data.usage.count; updateUsage(); }
     renderResults(data);
@@ -445,6 +515,11 @@ function renderResults(d) {
     const s = document.createElement('span'); s.className = 'kw'; s.textContent = k; kw.appendChild(s);
   });
 
+  lastProductData = {
+    productName: d.productName, productNameCN: d.productNameCN, category: d.category,
+    material: d.material, style: d.style, application: d.application, priceAnalysis: d.priceAnalysis
+  };
+
   // Region block
   const regionBlock = document.getElementById('region-block');
   if (d.region && d.region.cluster) {
@@ -455,13 +530,15 @@ function renderResults(d) {
     regionBlock.style.display = 'none';
   }
 
-  // Price analysis block
+  // Price analysis block (CNY primary, USD via live CBR rate in parens)
   const priceBlock = document.getElementById('price-block');
   if (d.priceAnalysis && d.priceAnalysis.wholesaleLow != null) {
     priceBlock.style.display = 'block';
     const p = d.priceAnalysis;
-    document.getElementById('price-range').textContent = `$${p.wholesaleLow}–${p.wholesaleHigh}`;
-    document.getElementById('price-avg').textContent = `$${p.wholesaleAvg}`;
+    document.getElementById('price-range').textContent = `¥${p.wholesaleLow}–${p.wholesaleHigh}`;
+    document.getElementById('price-range-usd').textContent = (p.usdLow != null) ? `(~$${p.usdLow}–${p.usdHigh})` : '';
+    document.getElementById('price-avg').textContent = `¥${p.wholesaleAvg}`;
+    document.getElementById('price-avg-usd').textContent = (p.usdAvg != null) ? `(~$${p.usdAvg})` : '';
     const vEl = document.getElementById('price-verdict');
     vEl.textContent = p.verdict || '';
     vEl.className = 'price-verdict';
@@ -480,18 +557,19 @@ function renderResults(d) {
   (d.suppliers||[]).forEach((s, i) => {
     const c = document.createElement('div'); c.className = 'sup-card';
     if (s.type === 'trader') c.style.opacity = '0.62';
-    else if (i >= 2) c.style.opacity = '0.92';
+    else if (i >= 2) c.style.opacity = '0.94';
 
     const regionBadge = (s.type !== 'trader' && s.regionMatch === false)
       ? `<span class="bg bg-red">⚠ Не из региона-кластера</span>` : '';
     const pvb = priceVsLabel[s.priceVsAvg];
     const priceBadge = pvb ? `<span class="bg ${pvb[1]}">${pvb[0]}</span>` : '';
+    const usdLine = (s.usdMin != null) ? `<div class="sup-usd">~$${s.usdMin}–${s.usdMax}</div>` : '';
 
     if (s.type === 'trader') {
-      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-o">⚠ Трейдер — не завод</span><span class="bg bg-gr">${s.years} лет</span></div><div class="sup-row"><span class="sup-name"></span><span style="font-size:15px;font-weight:700;color:#bbb">¥${s.priceMin}–${s.priceMax}</span></div><div style="margin-top:6px;font-size:11px;color:#c47a3a">Перекупщик — цена выше, нет прямого контакта с заводом</div>${(s.managerName)?`<div class="sup-manager" style="margin-top:8px"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}</div>`;
+      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-o">⚠ Трейдер — не завод</span><span class="bg bg-gr">${s.years} лет</span></div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div style="font-size:15px;font-weight:800;color:#bbb">¥${s.priceMin}–${s.priceMax}</div>${usdLine}</div></div><div style="margin-top:7px;font-size:11px;color:#c47a3a;font-weight:500">Перекупщик — цена выше, нет прямого контакта с заводом</div>${(s.managerName)?`<div class="sup-manager" style="margin-top:9px"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}</div>`;
       c.querySelector('.sup-name').textContent = s.name;
     } else {
-      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-g">✓ Производитель</span><span class="bg bg-gr">${s.years} лет</span>${s.cert?`<span class="bg bg-b">${s.cert}</span>`:''}${priceBadge}${regionBadge}</div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div class="sup-price">¥${s.priceMin}–${s.priceMax}</div><div class="sup-unit">за штуку</div></div></div></div><div class="stats"><div class="stat"><div class="st-v">★ ${s.rating}</div><div class="st-l">${(s.reviews||0).toLocaleString()} отз.</div></div><div class="stat"><div class="st-v">${s.monthlySales||'—'}</div><div class="st-l">шт/мес</div></div><div class="stat"><div class="st-v">¥${s.capital}</div><div class="st-l">капитал</div></div><div class="stat"><div class="st-v">${s.moq}</div><div class="st-l">MOQ</div></div></div><div class="sup-bot"><div class="sup-meta"><span>📍 <span class="loc"></span></span><span>👥 <span class="stf"></span> сотр.</span></div>${(s.managerName)?`<div class="sup-manager"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}<div class="sup-btns"><button class="btn-wc">💬 WeChat менеджера</button><button class="btn-lk">🔗 1688 профиль</button></div></div>`;
+      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-g">✓ Производитель</span><span class="bg bg-gr">${s.years} лет</span>${s.cert?`<span class="bg bg-b">${s.cert}</span>`:''}${priceBadge}${regionBadge}</div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div class="sup-price">¥${s.priceMin}–${s.priceMax}</div><div class="sup-unit">за штуку</div>${usdLine}</div></div></div><div class="stats"><div class="stat"><div class="st-v">★ ${s.rating}</div><div class="st-l">${(s.reviews||0).toLocaleString()} отз.</div></div><div class="stat"><div class="st-v">${s.monthlySales||'—'}</div><div class="st-l">шт/мес</div></div><div class="stat"><div class="st-v">¥${s.capital}</div><div class="st-l">капитал</div></div><div class="stat"><div class="st-v">${s.moq}</div><div class="st-l">MOQ</div></div></div><div class="sup-bot"><div class="sup-meta"><span>📍 <span class="loc"></span></span><span>👥 <span class="stf"></span> сотр.</span></div>${(s.managerName)?`<div class="sup-manager"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}<div class="sup-btns"><button class="btn-wc">💬 WeChat менеджера</button><button class="btn-lk">🔗 1688 профиль</button></div></div>`;
       c.querySelector('.sup-name').textContent = s.name;
       c.querySelector('.loc').textContent = s.location || '';
       c.querySelector('.stf').textContent = s.staff || '';
@@ -512,16 +590,31 @@ function renderResults(d) {
   } else {
     outreachBlock.style.display = 'none';
   }
+
+  // Reset extra tool sections for the new product
+  document.getElementById('ozon-card-result').style.display = 'none';
+  document.getElementById('ozon-card-result').innerHTML = '';
+  document.getElementById('btn-ozon-card').textContent = '📝 Сгенерировать карточку';
+  document.getElementById('mf-result').style.display = 'none';
+  document.getElementById('mf-result').innerHTML = '';
+  document.getElementById('btn-market-fit').textContent = '🌍 Анализировать рынок';
 }
 
 function copyOutreach() {
   if (!lastOutreachCN) return;
   const btn = document.getElementById('btn-copy-outreach');
-  const done = () => { btn.textContent = '✅ Скопировано — вставь в WeChat'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent='📋 Скопировать на китайском'; btn.classList.remove('copied'); }, 2500); };
+  copyText(lastOutreachCN, btn, '📋 Скопировано — вставь в WeChat', '📋 Скопировать на китайском');
+}
+
+function copyText(text, btnEl, copiedLabel, originalLabel) {
+  const done = () => {
+    btnEl.textContent = copiedLabel; btnEl.classList.add('copied');
+    setTimeout(() => { btnEl.textContent = originalLabel; btnEl.classList.remove('copied'); }, 2200);
+  };
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(lastOutreachCN).then(done).catch(() => fallbackCopy(lastOutreachCN, done));
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
   } else {
-    fallbackCopy(lastOutreachCN, done);
+    fallbackCopy(text, done);
   }
 }
 
@@ -531,6 +624,120 @@ function fallbackCopy(text, cb) {
   document.body.appendChild(ta); ta.focus(); ta.select();
   try { document.execCommand('copy'); cb(); } catch {}
   document.body.removeChild(ta);
+}
+
+// ── Ozon card generator ──────────────────────────────────────────────────
+async function loadOzonCard() {
+  if (!lastProductData) return;
+  const btn = document.getElementById('btn-ozon-card');
+  btn.disabled = true; btn.textContent = '⏳ Генерирую карточку...';
+  try {
+    const d = await api('POST', '/api/generate-card', lastProductData);
+    renderOzonCard(d);
+  } catch (err) {
+    alert('Ошибка: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '📝 Сгенерировать карточку';
+  }
+}
+
+function renderOzonCard(d) {
+  const box = document.getElementById('ozon-card-result');
+  box.style.display = 'block';
+  box.innerHTML = '';
+
+  const mkField = (label, text, mini) => {
+    const f = document.createElement('div'); f.className = 'ozon-field';
+    f.innerHTML = `<div class="ozon-label"><span class="ozon-label-txt">${label}</span><button class="btn-mini-copy">Скопировать</button></div><div class="ozon-text"></div>`;
+    f.querySelector('.ozon-text').textContent = text;
+    const cbtn = f.querySelector('.btn-mini-copy');
+    cbtn.onclick = () => copyText(text, cbtn, '✓ Готово', 'Скопировать');
+    return f;
+  };
+
+  box.appendChild(mkField('Заголовок', d.title || ''));
+  box.appendChild(mkField('Краткое описание', d.shortDescription || ''));
+
+  if (Array.isArray(d.bullets) && d.bullets.length) {
+    const f = document.createElement('div'); f.className = 'ozon-field';
+    f.innerHTML = `<div class="ozon-label"><span class="ozon-label-txt">Особенности</span></div>`;
+    const ul = document.createElement('ul'); ul.className = 'ozon-bullets';
+    d.bullets.forEach(b => { const li = document.createElement('li'); li.textContent = b; ul.appendChild(li); });
+    f.appendChild(ul);
+    box.appendChild(f);
+  }
+
+  box.appendChild(mkField('Полное описание', d.fullDescription || ''));
+
+  if (Array.isArray(d.seoKeywords) && d.seoKeywords.length) {
+    const f = document.createElement('div'); f.className = 'ozon-field';
+    const kwText = d.seoKeywords.join(', ');
+    f.innerHTML = `<div class="ozon-label"><span class="ozon-label-txt">SEO-ключи</span><button class="btn-mini-copy">Скопировать</button></div>`;
+    const row = document.createElement('div'); row.className = 'kw-row';
+    d.seoKeywords.forEach(k => { const s = document.createElement('span'); s.className = 'kw'; s.textContent = k; row.appendChild(s); });
+    f.appendChild(row);
+    const cbtn = f.querySelector('.btn-mini-copy');
+    cbtn.onclick = () => copyText(kwText, cbtn, '✓ Готово', 'Скопировать');
+    box.appendChild(f);
+  }
+}
+
+// ── Market fit analysis (Pro) ────────────────────────────────────────────
+async function loadMarketFit() {
+  if (!lastProductData) return;
+  const btn = document.getElementById('btn-market-fit');
+  const box = document.getElementById('mf-result');
+  btn.disabled = true; btn.textContent = '⏳ Анализирую рынок...';
+  try {
+    const d = await api('POST', '/api/market-fit', lastProductData);
+    renderMarketFit(d);
+  } catch (err) {
+    box.style.display = 'block';
+    box.innerHTML = `<div class="upsell-box">🔒 ${err.message}</div>`;
+  } finally {
+    btn.disabled = false; btn.textContent = '🌍 Анализировать рынок';
+  }
+}
+
+function renderMarketFit(d) {
+  const box = document.getElementById('mf-result');
+  box.style.display = 'block';
+  box.innerHTML = '';
+
+  const verdictClass = v => {
+    const s = (v||'').toLowerCase();
+    if (s.includes('высок')) return 'bg-g';
+    if (s.includes('низк')) return 'bg-red';
+    return 'bg-o';
+  };
+
+  if (Array.isArray(d.platforms)) {
+    const wrap = document.createElement('div');
+    d.platforms.forEach(p => {
+      const row = document.createElement('div'); row.className = 'mf-platform';
+      row.innerHTML = `<div><div class="mf-pname"></div><div class="mf-preason"></div></div><span class="bg mf-pverdict ${verdictClass(p.verdict)}"></span>`;
+      row.querySelector('.mf-pname').textContent = p.name || '';
+      row.querySelector('.mf-preason').textContent = p.reason || '';
+      row.querySelector('.mf-pverdict').textContent = p.verdict || '';
+      wrap.appendChild(row);
+    });
+    box.appendChild(wrap);
+  }
+
+  if (d.competitionScore != null) {
+    const sc = document.createElement('div'); sc.className = 'mf-score-row';
+    sc.innerHTML = `<div class="mf-score-num">${d.competitionScore}/10</div><div class="mf-score-label">${d.competitionLabel || 'Конкуренция в нише'}</div>`;
+    box.appendChild(sc);
+  }
+
+  if (d.summary) {
+    const sm = document.createElement('div'); sm.className = 'mf-summary'; sm.textContent = d.summary;
+    box.appendChild(sm);
+  }
+
+  const disc = document.createElement('div'); disc.className = 'mf-disclaimer';
+  disc.textContent = '⚠️ Это оценка ИИ на основе общих знаний о рынке, не проверка реальных листингов в реальном времени на eBay/Shopify/WB/Ozon.';
+  box.appendChild(disc);
 }
 
 init();
