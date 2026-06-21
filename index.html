@@ -12,7 +12,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .wrap{width:100%;max-width:430px;background:#fff;min-height:100vh}
 @media(min-width:480px){.wrap{border-radius:28px;margin:24px auto;min-height:auto;box-shadow:0 12px 50px rgba(0,0,0,0.16)}}
 /* HEADER */
-.hdr{background:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #F0F0F2;position:sticky;top:0;z-index:10}
+.hdr{background:#fff;padding:14px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #F0F0F2;position:sticky;top:0;z-index:20}
 .logo{font-size:18px;font-weight:800;color:#15171C;flex:1;letter-spacing:-0.5px}
 .logo span{color:#2F5FE0}
 .usage-pill{font-size:11px;background:#EAF0FE;color:#2F5FE0;padding:5px 11px;border-radius:20px;font-weight:700;cursor:default;letter-spacing:0.2px}
@@ -20,6 +20,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .usage-pill.full{background:#FEECEC;color:#CC2222}
 .btn-back{background:none;border:none;color:#15171C;font-size:22px;cursor:pointer;padding:0;line-height:1;display:none;font-weight:700}
 .btn-logout{background:none;border:none;color:#bbb;font-size:19px;cursor:pointer;padding:0;line-height:1;display:none}
+.lang-wrap{position:relative}
+.btn-lang{background:#F1F1F4;border:none;color:#15171C;font-size:11px;font-weight:700;cursor:pointer;padding:6px 9px;border-radius:10px;display:flex;align-items:center;gap:3px}
+.lang-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.18);border:1px solid #F0F0F2;overflow:hidden;z-index:30;min-width:150px}
+.lang-menu.open{display:block}
+.lang-item{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:13px;font-weight:600;color:#15171C;cursor:pointer}
+.lang-item:hover,.lang-item.active{background:#F4F8FF}
+.lang-flag{font-size:16px}
 /* AUTH */
 .auth{padding:0 0 28px;text-align:center}
 .auth-hero{background:linear-gradient(135deg,#FFE8CF 0%,#FFD6E8 55%,#F4D9FF 100%);padding:46px 24px 36px;border-radius:0 0 32px 32px;margin-bottom:26px}
@@ -125,6 +132,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .pv-below{background:#E5F8EA;color:#16A34A}
 .pv-average{background:#EAF0FE;color:#2F5FE0}
 .pv-above{background:#FFF1E0;color:#B6580A}
+/* TOOLS (market fit moved up, right after price) */
+.tool-block{margin:0 16px 14px;border-radius:18px;border:1px solid #F0F0F2;background:#fff;padding:16px}
+.tool-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.tool-title-row{display:flex;align-items:center;gap:7px}
+.tool-title{font-size:13px;font-weight:800;color:#15171C}
+.tool-desc{font-size:11.5px;color:#9a9aa3;margin-bottom:13px;line-height:1.5;font-weight:500}
+.btn-tool{width:100%;padding:13px;border-radius:14px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid #2F5FE0;background:#fff;color:#2F5FE0;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-tool:active{opacity:0.7}
+.btn-tool:disabled{opacity:0.5}
+.tool-result{display:none;margin-top:14px}
+.upsell-box{background:#FFF1E0;border:1px solid #FFD9A8;border-radius:13px;padding:13px 15px;font-size:12.5px;color:#8B5E3C;line-height:1.55;font-weight:500}
+.mf-platform{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #F0F0F2}
+.mf-platform:last-child{border-bottom:none}
+.mf-pname{font-size:13px;font-weight:700;color:#15171C}
+.mf-preason{font-size:11px;color:#9a9aa3;margin-top:2px;line-height:1.4;font-weight:500}
+.mf-pverdict{font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.mf-score-row{display:flex;align-items:center;gap:10px;margin:12px 0;padding:12px;background:#F8F8FA;border-radius:13px}
+.mf-score-num{font-size:24px;font-weight:800;color:#15171C}
+.mf-score-label{font-size:11.5px;font-weight:700;color:#5b5b66}
+.mf-summary{font-size:12.5px;color:#3d3d44;line-height:1.6;font-weight:500;margin-bottom:10px}
+.mf-disclaimer{font-size:10.5px;color:#9a9aa3;line-height:1.5;font-style:italic;border-top:1px solid #F0F0F2;padding-top:10px}
+.bg-lime{background:#E3F26B;color:#3A4A0A;font-size:9.5px;padding:4px 10px;border-radius:20px;font-weight:800;text-transform:uppercase;letter-spacing:0.2px}
 /* SUPPLIERS */
 .sup-hdr{padding:4px 16px 10px;font-size:10.5px;color:#9a9aa3;font-weight:800;letter-spacing:0.4px;text-transform:uppercase}
 .sups-wrap{padding:0 12px 16px}
@@ -134,7 +163,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .bg{font-size:9.5px;padding:4px 10px;border-radius:20px;font-weight:800;text-transform:uppercase;letter-spacing:0.2px}
 .bg-g{background:#E5F8EA;color:#16A34A}.bg-o{background:#FFF1E0;color:#B6580A}
 .bg-b{background:#EAF0FE;color:#2F5FE0}.bg-gr{background:#F1F1F4;color:#888}
-.bg-red{background:#FEECEC;color:#CC2222}.bg-lime{background:#E3F26B;color:#3A4A0A}
+.bg-red{background:#FEECEC;color:#CC2222}
 .sup-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .sup-name{font-size:13.5px;font-weight:700;color:#15171C;flex:1;line-height:1.3}
 .sup-price-box{text-align:right;flex-shrink:0}
@@ -163,51 +192,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .btn-copy{width:100%;padding:12px;border-radius:13px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:#2F5FE0;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px}
 .btn-copy:active{opacity:0.85}
 .btn-copy.copied{background:#16A34A}
-/* EXTRA TOOLS (Ozon card / market fit) */
-.tool-block{margin:0 12px 14px;border-radius:18px;border:1px solid #F0F0F2;background:#fff;padding:16px}
-.tool-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-.tool-title-row{display:flex;align-items:center;gap:7px}
-.tool-title{font-size:13px;font-weight:800;color:#15171C}
-.tool-desc{font-size:11.5px;color:#9a9aa3;margin-bottom:13px;line-height:1.5;font-weight:500}
-.btn-tool{width:100%;padding:13px;border-radius:14px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid #15171C;background:#fff;color:#15171C;display:flex;align-items:center;justify-content:center;gap:7px}
-.btn-tool:active{opacity:0.7}
-.btn-tool:disabled{opacity:0.5}
-.btn-tool.pro{border-color:#2F5FE0;color:#2F5FE0}
-.tool-result{display:none;margin-top:14px}
-.ozon-field{margin-bottom:12px}
-.ozon-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.ozon-label-txt{font-size:9.5px;color:#9a9aa3;font-weight:800;text-transform:uppercase;letter-spacing:0.4px}
-.btn-mini-copy{font-size:10px;font-weight:700;color:#2F5FE0;background:#EAF0FE;border:none;border-radius:8px;padding:4px 9px;cursor:pointer}
-.btn-mini-copy.copied{background:#E5F8EA;color:#16A34A}
-.ozon-text{font-size:13px;color:#15171C;line-height:1.55;background:#F8F8FA;border-radius:11px;padding:11px 13px;font-weight:500}
-.ozon-bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
-.ozon-bullets li{font-size:12.5px;color:#15171C;background:#F8F8FA;border-radius:10px;padding:9px 12px;font-weight:500}
-.ozon-bullets li::before{content:"✓ ";color:#16A34A;font-weight:800}
-.upsell-box{background:#FFF1E0;border:1px solid #FFD9A8;border-radius:13px;padding:13px 15px;font-size:12.5px;color:#8B5E3C;line-height:1.55;font-weight:500}
-.mf-platform{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #F0F0F2}
-.mf-platform:last-child{border-bottom:none}
-.mf-pname{font-size:13px;font-weight:700;color:#15171C}
-.mf-preason{font-size:11px;color:#9a9aa3;margin-top:2px;line-height:1.4;font-weight:500}
-.mf-pverdict{font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
-.mf-score-row{display:flex;align-items:center;gap:10px;margin:12px 0;padding:12px;background:#F8F8FA;border-radius:13px}
-.mf-score-num{font-size:24px;font-weight:800;color:#15171C}
-.mf-score-label{font-size:11.5px;font-weight:700;color:#5b5b66}
-.mf-summary{font-size:12.5px;color:#3d3d44;line-height:1.6;font-weight:500;margin-bottom:10px}
-.mf-disclaimer{font-size:10.5px;color:#9a9aa3;line-height:1.5;font-style:italic;border-top:1px solid #F0F0F2;padding-top:10px}
 .rescan-section{padding:0 12px 28px}
 .btn-rescan{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:16px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;color:#15171C;border:1.5px solid #E4E4E8}
 .btn-rescan:active{opacity:0.7}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="app-wrap">
 
   <!-- HEADER -->
   <div class="hdr">
     <button class="btn-back" id="btn-back" onclick="goHome()">←</button>
     <div class="logo">Buyer<span>AI</span></div>
     <span class="usage-pill" id="usage-pill" style="display:none"></span>
-    <button class="btn-logout" id="btn-logout" onclick="logout()" title="Выйти">⎋</button>
+    <div class="lang-wrap">
+      <button class="btn-lang" id="btn-lang" onclick="toggleLangMenu()">🌐 <span id="lang-code">RU</span></button>
+      <div class="lang-menu" id="lang-menu"></div>
+    </div>
+    <button class="btn-logout" id="btn-logout" onclick="logout()" title="Logout">⎋</button>
   </div>
 
   <!-- AUTH SCREEN -->
@@ -215,24 +217,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="auth-hero">
       <div class="auth-logo">🔍</div>
       <h2>BuyerAI</h2>
-      <p class="auth-sub">Платформа поиска производителей в Китае</p>
+      <p class="auth-sub" data-i18n="auth_sub"></p>
     </div>
     <div class="auth-body">
       <div class="auth-tabs">
-        <button class="auth-tab on" id="tab-login" onclick="switchTab('login')">Войти</button>
-        <button class="auth-tab" id="tab-reg" onclick="switchTab('reg')">Регистрация</button>
+        <button class="auth-tab on" id="tab-login" onclick="switchTab('login')" data-i18n="tab_login"></button>
+        <button class="auth-tab" id="tab-reg" onclick="switchTab('reg')" data-i18n="tab_register"></button>
       </div>
       <div class="auth-error" id="auth-error"></div>
       <div class="field">
-        <label>Email</label>
+        <label data-i18n="label_email"></label>
         <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')doAuth()">
       </div>
       <div class="field">
-        <label>Пароль</label>
-        <input type="password" id="auth-pass" placeholder="Минимум 6 символов" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth()">
+        <label data-i18n="label_password"></label>
+        <input type="password" id="auth-pass" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth()">
       </div>
-      <button class="btn-main" id="auth-btn" onclick="doAuth()">Войти</button>
-      <p style="font-size:11px;color:#bbb;text-align:center;margin-top:8px" id="auth-hint">Нет аккаунта? Нажми «Регистрация»</p>
+      <button class="btn-main" id="auth-btn" onclick="doAuth()"></button>
+      <p style="font-size:11px;color:#bbb;text-align:center;margin-top:8px" id="auth-hint"></p>
     </div>
   </div>
 
@@ -246,28 +248,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="orbit-dot dot2"></div>
         <div class="hero">📷</div>
       </div>
-      <h2>Найди производителя</h2>
-      <p class="home-sub">Сфотографируй любой товар — ИИ определит что это и найдёт заводы в Китае за секунды</p>
+      <h2 data-i18n="home_title"></h2>
+      <p class="home-sub" data-i18n="home_sub"></p>
     </div>
     <div class="home-body">
       <label class="upload-btn">
-        📷 Сфотографировать товар
+        <span data-i18n="btn_take_photo"></span>
         <input type="file" accept="image/*" capture="environment" onchange="handleFile(event)" style="display:none">
       </label>
       <label class="upload-btn-sec">
-        🖼 Выбрать из галереи
+        <span data-i18n="btn_gallery"></span>
         <input type="file" accept="image/jpeg,image/png,image/webp" onchange="handleFile(event)" style="display:none">
       </label>
       <div class="features">
-        <div class="feat"><div class="feat-icon">📍</div><div class="feat-txt">Регион производства и почему именно там</div></div>
-        <div class="feat"><div class="feat-icon">🏭</div><div class="feat-txt">5 заводов — отличает производителя от перекупщика</div></div>
-        <div class="feat"><div class="feat-icon">💰</div><div class="feat-txt">Цена в юанях с конвертацией по курсу ЦБ</div></div>
-        <div class="feat"><div class="feat-icon">📝</div><div class="feat-txt">Готовая карточка для Ozon в один клик</div></div>
-        <div class="feat"><div class="feat-icon">🌍</div><div class="feat-txt">Анализ продаж на eBay/Shopify/WB/Ozon · Pro</div></div>
+        <div class="feat"><div class="feat-icon">📍</div><div class="feat-txt" data-i18n="feat_region"></div></div>
+        <div class="feat"><div class="feat-icon">🏭</div><div class="feat-txt" data-i18n="feat_suppliers"></div></div>
+        <div class="feat"><div class="feat-icon">💰</div><div class="feat-txt" data-i18n="feat_price"></div></div>
+        <div class="feat"><div class="feat-icon">🌍</div><div class="feat-txt" data-i18n="feat_market"></div></div>
       </div>
       <div class="limit-banner" id="limit-banner" style="display:none">
-        <h4>⚠️ Лимит исчерпан на сегодня</h4>
-        <p>Напиши @VIKTOR_CN1 в Telegram или WeChat <b>Zaikin1_v</b> для апгрейда тарифа.</p>
+        <h4 data-i18n="limit_title"></h4>
+        <p data-i18n="limit_text"></p>
       </div>
     </div>
   </div>
@@ -275,13 +276,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <!-- LOADING -->
   <div id="s-load" class="loading" style="display:none">
     <div class="spin"></div>
-    <h3>Анализирую товар...</h3>
-    <div class="loading-msg" id="load-msg">Отправляю в ИИ...</div>
+    <h3 data-i18n="loading_title"></h3>
+    <div class="loading-msg" id="load-msg"></div>
     <div class="steps-list">
-      <div class="step-item" id="st1"><span class="si">⬜</span>&nbsp;Распознаю товар по фото</div>
-      <div class="step-item" id="st2"><span class="si">⬜</span>&nbsp;Анализирую регион производства</div>
-      <div class="step-item" id="st3"><span class="si">⬜</span>&nbsp;Ищу 5 производителей на 1688</div>
-      <div class="step-item" id="st4"><span class="si">⬜</span>&nbsp;Сравниваю цены и курс ЦБ</div>
+      <div class="step-item" id="st1"><span class="si">⬜</span>&nbsp;<span data-i18n="step1"></span></div>
+      <div class="step-item" id="st2"><span class="si">⬜</span>&nbsp;<span data-i18n="step2"></span></div>
+      <div class="step-item" id="st3"><span class="si">⬜</span>&nbsp;<span data-i18n="step3"></span></div>
+      <div class="step-item" id="st4"><span class="si">⬜</span>&nbsp;<span data-i18n="step4"></span></div>
     </div>
   </div>
 
@@ -289,7 +290,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <div id="s-res" style="display:none">
     <div class="detect-view">
       <div class="img-wrap">
-        <img id="res-img" alt="Товар">
+        <img id="res-img" alt="">
         <div class="scan-grid"></div>
         <div class="det-border"></div>
         <div class="corner tl"></div><div class="corner tr"></div>
@@ -298,69 +299,60 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="scanl"></div>
         <div class="conf-badge"><span class="conf-dot"></span><span id="res-conf"></span></div>
       </div>
-      <div class="detect-status">✓ Товар определён · <span id="res-time"></span> сек</div>
+      <div class="detect-status"><span data-i18n="detected_prefix"></span> <span id="res-time"></span> <span data-i18n="seconds"></span></div>
     </div>
     <div class="product-info">
       <div class="prod-name" id="res-name"></div>
       <div class="prod-cn" id="res-cn"></div>
       <div class="prod-sub" id="res-sub"></div>
       <div class="param-grid">
-        <div class="param"><div class="param-l">Материал</div><div class="param-v" id="res-mat"></div></div>
-        <div class="param"><div class="param-l">Стиль</div><div class="param-v" id="res-sty"></div></div>
-        <div class="param"><div class="param-l">Категория</div><div class="param-v" id="res-cat"></div></div>
-        <div class="param"><div class="param-l">Применение</div><div class="param-v" id="res-app" style="font-size:11px"></div></div>
+        <div class="param"><div class="param-l" data-i18n="lbl_material"></div><div class="param-v" id="res-mat"></div></div>
+        <div class="param"><div class="param-l" data-i18n="lbl_style"></div><div class="param-v" id="res-sty"></div></div>
+        <div class="param"><div class="param-l" data-i18n="lbl_category"></div><div class="param-v" id="res-cat"></div></div>
+        <div class="param"><div class="param-l" data-i18n="lbl_application"></div><div class="param-v" id="res-app" style="font-size:11px"></div></div>
       </div>
-      <div class="kw-label">Поисковые запросы сгенерированы</div>
+      <div class="kw-label" data-i18n="lbl_keywords"></div>
       <div class="kw-row" id="res-kws"></div>
     </div>
 
     <div class="insight-block insight-region" id="region-block" style="display:none">
-      <div class="insight-hd"><span class="insight-icon">📍</span><span class="insight-title">Регион производства</span></div>
+      <div class="insight-hd"><span class="insight-icon">📍</span><span class="insight-title" data-i18n="region_title"></span></div>
       <div class="insight-main" id="region-cluster"></div>
       <div class="insight-sub" id="region-reason"></div>
     </div>
     <div class="insight-block insight-price" id="price-block" style="display:none">
-      <div class="insight-hd"><span class="insight-icon">💰</span><span class="insight-title">Анализ цены (опт)</span></div>
+      <div class="insight-hd"><span class="insight-icon">💰</span><span class="insight-title" data-i18n="price_title"></span></div>
       <div class="price-range-row">
         <span class="price-num" id="price-range"></span>
         <span class="price-usd" id="price-range-usd"></span>
         <span class="price-verdict" id="price-verdict"></span>
       </div>
-      <div class="insight-sub">Средняя оптовая цена: <b id="price-avg"></b> <span id="price-avg-usd"></span> / шт</div>
+      <div class="insight-sub"><span data-i18n="price_avg_label"></span> <b id="price-avg"></b> <span id="price-avg-usd"></span> <span data-i18n="price_per_unit"></span></div>
+    </div>
+
+    <div class="tool-block">
+      <div class="tool-hd">
+        <div class="tool-title-row"><span class="insight-icon">🌍</span><span class="tool-title" data-i18n="mf_title"></span></div>
+        <span class="bg-lime">PRO</span>
+      </div>
+      <div class="tool-desc" data-i18n="mf_desc"></div>
+      <button class="btn-tool" id="btn-market-fit" onclick="loadMarketFit()" data-i18n="mf_btn"></button>
+      <div class="tool-result" id="mf-result"></div>
     </div>
 
     <div class="sup-hdr" id="res-cnt"></div>
     <div class="sups-wrap" id="res-sups"></div>
 
     <div class="outreach-block" id="outreach-block" style="display:none">
-      <div class="outreach-hd"><span class="insight-icon">📋</span><span class="outreach-title">Готовое сообщение поставщику</span></div>
+      <div class="outreach-hd"><span class="insight-icon">📋</span><span class="outreach-title" data-i18n="outreach_title"></span></div>
       <div class="outreach-text" id="outreach-cn"></div>
-      <div class="outreach-translate" id="outreach-ru"></div>
-      <button class="btn-copy" id="btn-copy-outreach" onclick="copyOutreach()">📋 Скопировать на китайском</button>
-    </div>
-
-    <div class="tool-block">
-      <div class="tool-hd">
-        <div class="tool-title-row"><span class="insight-icon">📝</span><span class="tool-title">Карточка для Ozon</span></div>
-      </div>
-      <div class="tool-desc">Заголовок, описание и ключевые слова для маркетплейса — на основе уже найденных данных о товаре. Бесплатно, не тратит дневной лимит.</div>
-      <button class="btn-tool" id="btn-ozon-card" onclick="loadOzonCard()">📝 Сгенерировать карточку</button>
-      <div class="tool-result" id="ozon-card-result"></div>
-    </div>
-
-    <div class="tool-block">
-      <div class="tool-hd">
-        <div class="tool-title-row"><span class="insight-icon">🌍</span><span class="tool-title">Анализ маркетплейсов</span></div>
-        <span class="bg bg-lime">PRO</span>
-      </div>
-      <div class="tool-desc">Оценка ИИ — продастся ли товар на eBay, Shopify, Wildberries, Ozon — и насколько конкурентна ниша. Это аналитическая оценка на основе общих знаний о рынке, не проверка реальных листингов в реальном времени.</div>
-      <button class="btn-tool pro" id="btn-market-fit" onclick="loadMarketFit()">🌍 Анализировать рынок</button>
-      <div class="tool-result" id="mf-result"></div>
+      <div class="outreach-translate" id="outreach-translated"></div>
+      <button class="btn-copy" id="btn-copy-outreach" onclick="copyOutreach()"></button>
     </div>
 
     <div class="rescan-section">
       <label class="btn-rescan">
-        📷 Сфотографировать другой товар
+        <span data-i18n="rescan_btn"></span>
         <input type="file" accept="image/jpeg,image/png,image/webp" onchange="handleFile(event)" style="display:none">
       </label>
     </div>
@@ -368,6 +360,213 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 </div>
 <script>
+// ── i18n ──────────────────────────────────────────────────────────────────
+const LANGS = [
+  { code: 'ru', flag: '🇷🇺', label: 'Русский', rtl: false },
+  { code: 'en', flag: '🇬🇧', label: 'English', rtl: false },
+  { code: 'ko', flag: '🇰🇷', label: '한국어', rtl: false },
+  { code: 'ja', flag: '🇯🇵', label: '日本語', rtl: false },
+  { code: 'ar', flag: '🇸🇦', label: 'العربية', rtl: true }
+];
+
+const I18N = {
+ru: {
+  auth_sub:'Платформа поиска производителей в Китае', tab_login:'Войти', tab_register:'Регистрация',
+  label_email:'Email', label_password:'Пароль', btn_login:'Войти', btn_register:'Создать аккаунт',
+  hint_no_account:'Нет аккаунта? Нажми «Регистрация»', hint_has_account:'Уже есть аккаунт? Нажми «Войти»',
+  ph_password_login:'Твой пароль', ph_password_register:'Минимум 6 символов',
+  home_title:'Найди производителя', home_sub:'Сфотографируй любой товар — ИИ определит что это и найдёт заводы в Китае за секунды',
+  btn_take_photo:'📷 Сфотографировать товар', btn_gallery:'🖼 Выбрать из галереи',
+  feat_region:'Регион производства и почему именно там', feat_suppliers:'5 заводов — отличает производителя от перекупщика',
+  feat_price:'Цена в юанях с конвертацией по курсу ЦБ', feat_market:'Анализ продаж на eBay/Shopify/WB/Ozon · Pro',
+  limit_title:'⚠️ Лимит исчерпан на сегодня', limit_text:'Напиши @VIKTOR_CN1 в Telegram или WeChat Zaikin1_v для апгрейда тарифа.',
+  loading_title:'Анализирую товар...', load_prepare:'Подготавливаю изображение...', load_send:'Отправляю в ИИ...',
+  load_region:'Определяю регион производства...', load_suppliers:'Ищу 5 производителей...', load_fx:'Считаю курс ЦБ...',
+  step1:'Распознаю товар по фото', step2:'Анализирую регион производства', step3:'Ищу 5 производителей на 1688', step4:'Сравниваю цены и курс ЦБ',
+  detected_prefix:'✓ Товар определён ·', seconds:'сек',
+  lbl_material:'Материал', lbl_style:'Стиль', lbl_category:'Категория', lbl_application:'Применение', lbl_keywords:'Поисковые запросы сгенерированы',
+  region_title:'Регион производства', price_title:'Анализ цены (опт)', price_avg_label:'Средняя оптовая цена:', price_per_unit:'/ шт',
+  suppliers_found:'производителей найдено · 1688 + Alibaba',
+  sup_manufacturer:'✓ Производитель', sup_trader:'⚠ Трейдер — не завод', sup_years:'лет', sup_region_mismatch:'⚠ Не из региона-кластера',
+  price_below:'👍 Ниже среднего', price_average:'Среднерыночная', price_above:'Выше среднего',
+  sup_per_unit:'за штуку', sup_reviews:'отз.', sup_per_month:'шт/мес', sup_capital:'капитал', sup_moq:'MOQ', sup_staff:'сотр.',
+  sup_wechat:'💬 WeChat менеджера', sup_1688:'🔗 1688 профиль', sup_trader_warning:'Перекупщик — цена выше, нет прямого контакта с заводом',
+  outreach_title:'Готовое сообщение поставщику', outreach_translate_prefix:'Перевод:', outreach_copy:'📋 Скопировать на китайском', outreach_copied:'📋 Скопировано — вставь в WeChat',
+  mf_title:'Анализ маркетплейсов', mf_desc:'Оценка ИИ — продастся ли товар на eBay, Shopify, Wildberries, Ozon — и насколько конкурентна ниша. Это аналитическая оценка на основе общих знаний о рынке, не проверка реальных листингов в реальном времени.',
+  mf_btn:'🌍 Анализировать рынок', mf_loading:'⏳ Анализирую рынок...', mf_competition_fallback:'Конкуренция в нише',
+  mf_disclaimer:'⚠️ Это оценка ИИ на основе общих знаний о рынке, не проверка реальных листингов в реальном времени на eBay/Shopify/WB/Ozon.',
+  rescan_btn:'📷 Сфотографировать другой товар',
+  err_fill_fields:'Заполни все поля', err_generic:'Ошибка:', wait:'Подождите...', confirm_logout:'Выйти из аккаунта?',
+  file_format_error:'Поддерживаемые форматы: JPG, PNG, WEBP.\nНа iPhone: Настройки → Камера → Форматы → Максимальная совместимость'
+},
+en: {
+  auth_sub:'A platform for finding manufacturers in China', tab_login:'Log in', tab_register:'Sign up',
+  label_email:'Email', label_password:'Password', btn_login:'Log in', btn_register:'Create account',
+  hint_no_account:'No account yet? Tap "Sign up"', hint_has_account:'Already have an account? Tap "Log in"',
+  ph_password_login:'Your password', ph_password_register:'Minimum 6 characters',
+  home_title:'Find a manufacturer', home_sub:'Photograph any product — AI identifies it and finds factories in China in seconds',
+  btn_take_photo:'📷 Take a photo', btn_gallery:'🖼 Choose from gallery',
+  feat_region:'Manufacturing region and the reason behind it', feat_suppliers:'5 factories — tells manufacturers apart from traders',
+  feat_price:'Price in yuan with live CBR conversion', feat_market:'Sales analysis on eBay/Shopify/WB/Ozon · Pro',
+  limit_title:'⚠️ Daily limit reached', limit_text:'Message @VIKTOR_CN1 on Telegram or WeChat Zaikin1_v to upgrade your plan.',
+  loading_title:'Analyzing product...', load_prepare:'Preparing the image...', load_send:'Sending to AI...',
+  load_region:'Identifying manufacturing region...', load_suppliers:'Finding 5 suppliers...', load_fx:'Fetching exchange rate...',
+  step1:'Recognizing the product from photo', step2:'Analyzing manufacturing region', step3:'Searching 5 suppliers on 1688', step4:'Comparing prices and FX rate',
+  detected_prefix:'✓ Product identified ·', seconds:'sec',
+  lbl_material:'Material', lbl_style:'Style', lbl_category:'Category', lbl_application:'Use cases', lbl_keywords:'Search keywords generated',
+  region_title:'Manufacturing region', price_title:'Price analysis (wholesale)', price_avg_label:'Average wholesale price:', price_per_unit:'/ pc',
+  suppliers_found:'suppliers found · 1688 + Alibaba',
+  sup_manufacturer:'✓ Manufacturer', sup_trader:'⚠ Trader — not a factory', sup_years:'yrs', sup_region_mismatch:'⚠ Not from the expected cluster',
+  price_below:'👍 Below average', price_average:'Market average', price_above:'Above average',
+  sup_per_unit:'per piece', sup_reviews:'reviews', sup_per_month:'pcs/mo', sup_capital:'capital', sup_moq:'MOQ', sup_staff:'staff',
+  sup_wechat:'💬 WeChat manager', sup_1688:'🔗 1688 profile', sup_trader_warning:'Reseller — higher price, no direct factory contact',
+  outreach_title:'Ready-to-send supplier message', outreach_translate_prefix:'Translation:', outreach_copy:'📋 Copy in Chinese', outreach_copied:'📋 Copied — paste it into WeChat',
+  mf_title:'Marketplace analysis', mf_desc:'AI estimate — would this product sell on eBay, Shopify, Wildberries, Ozon — and how competitive is the niche. This is an analytical estimate based on general market knowledge, not a live listings check.',
+  mf_btn:'🌍 Analyze the market', mf_loading:'⏳ Analyzing the market...', mf_competition_fallback:'Niche competition',
+  mf_disclaimer:'⚠️ This is an AI estimate based on general market knowledge, not a real-time check of actual listings on eBay/Shopify/WB/Ozon.',
+  rescan_btn:'📷 Photograph another product',
+  err_fill_fields:'Please fill in all fields', err_generic:'Error:', wait:'Please wait...', confirm_logout:'Log out of your account?',
+  file_format_error:'Supported formats: JPG, PNG, WEBP.\\nOn iPhone: Settings → Camera → Formats → Most Compatible'
+},
+ko: {
+  auth_sub:'중국 제조업체를 찾는 플랫폼', tab_login:'로그인', tab_register:'회원가입',
+  label_email:'이메일', label_password:'비밀번호', btn_login:'로그인', btn_register:'계정 만들기',
+  hint_no_account:'계정이 없으신가요? "회원가입"을 누르세요', hint_has_account:'이미 계정이 있으신가요? "로그인"을 누르세요',
+  ph_password_login:'비밀번호 입력', ph_password_register:'최소 6자',
+  home_title:'제조업체 찾기', home_sub:'어떤 제품이든 촬영하세요 — AI가 제품을 인식하고 몇 초 만에 중국 공장을 찾아드립니다',
+  btn_take_photo:'📷 제품 촬영하기', btn_gallery:'🖼 갤러리에서 선택',
+  feat_region:'생산 지역과 그 이유', feat_suppliers:'제조업체와 무역회사를 구분하는 공장 5곳',
+  feat_price:'러시아 중앙은행 환율로 위안화 가격 변환', feat_market:'eBay/Shopify/WB/Ozon 판매 분석 · Pro',
+  limit_title:'⚠️ 오늘 한도 도달', limit_text:'요금제 업그레이드는 텔레그램 @VIKTOR_CN1 또는 위챗 Zaikin1_v로 문의하세요.',
+  loading_title:'제품 분석 중...', load_prepare:'이미지 준비 중...', load_send:'AI로 전송 중...',
+  load_region:'생산 지역 분석 중...', load_suppliers:'공급업체 5곳 검색 중...', load_fx:'환율 계산 중...',
+  step1:'사진으로 제품 인식 중', step2:'생산 지역 분석 중', step3:'1688에서 공급업체 5곳 검색 중', step4:'가격 및 환율 비교 중',
+  detected_prefix:'✓ 제품 인식 완료 ·', seconds:'초',
+  lbl_material:'소재', lbl_style:'스타일', lbl_category:'카테고리', lbl_application:'용도', lbl_keywords:'검색 키워드 생성됨',
+  region_title:'생산 지역', price_title:'가격 분석 (도매)', price_avg_label:'평균 도매가:', price_per_unit:'/ 개',
+  suppliers_found:'개 공급업체 검색됨 · 1688 + Alibaba',
+  sup_manufacturer:'✓ 제조업체', sup_trader:'⚠ 무역회사 — 공장 아님', sup_years:'년', sup_region_mismatch:'⚠ 예상 산업단지 외부',
+  price_below:'👍 평균 이하', price_average:'시장 평균', price_above:'평균 이상',
+  sup_per_unit:'개당', sup_reviews:'리뷰', sup_per_month:'개/월', sup_capital:'자본금', sup_moq:'최소주문량', sup_staff:'직원',
+  sup_wechat:'💬 위챗 담당자', sup_1688:'🔗 1688 프로필', sup_trader_warning:'중개업체 — 가격이 높고 공장과 직접 연락 불가',
+  outreach_title:'바로 보낼 수 있는 공급업체 메시지', outreach_translate_prefix:'번역:', outreach_copy:'📋 중국어로 복사', outreach_copied:'📋 복사됨 — 위챗에 붙여넣으세요',
+  mf_title:'마켓플레이스 분석', mf_desc:'AI 추정 — 이 제품이 eBay, Shopify, Wildberries, Ozon에서 잘 팔릴지와 니치 경쟁 정도를 분석합니다. 이는 일반 시장 지식에 기반한 분석적 추정이며, 실제 리스팅 확인이 아닙니다.',
+  mf_btn:'🌍 시장 분석하기', mf_loading:'⏳ 시장 분석 중...', mf_competition_fallback:'니치 경쟁도',
+  mf_disclaimer:'⚠️ 이는 일반 시장 지식에 기반한 AI 추정치이며, eBay/Shopify/WB/Ozon의 실시간 리스팅 확인이 아닙니다.',
+  rescan_btn:'📷 다른 제품 촬영하기',
+  err_fill_fields:'모든 항목을 입력하세요', err_generic:'오류:', wait:'잠시만 기다려주세요...', confirm_logout:'로그아웃 하시겠습니까?',
+  file_format_error:'지원 형식: JPG, PNG, WEBP.\\n아이폰: 설정 → 카메라 → 포맷 → 높은 호환성'
+},
+ja: {
+  auth_sub:'中国の製造業者を探すプラットフォーム', tab_login:'ログイン', tab_register:'新規登録',
+  label_email:'メールアドレス', label_password:'パスワード', btn_login:'ログイン', btn_register:'アカウント作成',
+  hint_no_account:'アカウントをお持ちでないですか？「新規登録」をタップ', hint_has_account:'すでにアカウントをお持ちですか？「ログイン」をタップ',
+  ph_password_login:'パスワードを入力', ph_password_register:'6文字以上',
+  home_title:'製造業者を見つける', home_sub:'商品を撮影するだけで、AIが商品を識別し数秒で中国の工場を見つけます',
+  btn_take_photo:'📷 商品を撮影', btn_gallery:'🖼 ギャラリーから選択',
+  feat_region:'生産地域とその理由', feat_suppliers:'製造業者と貿易会社を見分ける工場5社',
+  feat_price:'ロシア中央銀行レートで人民元価格を換算', feat_market:'eBay/Shopify/WB/Ozonでの販売分析 · Pro',
+  limit_title:'⚠️ 本日の上限に達しました', limit_text:'プランのアップグレードはTelegram @VIKTOR_CN1 またはWeChat Zaikin1_v までご連絡ください。',
+  loading_title:'商品を分析中...', load_prepare:'画像を準備中...', load_send:'AIに送信中...',
+  load_region:'生産地域を分析中...', load_suppliers:'サプライヤー5社を検索中...', load_fx:'為替レートを計算中...',
+  step1:'写真から商品を認識中', step2:'生産地域を分析中', step3:'1688でサプライヤー5社を検索中', step4:'価格と為替レートを比較中',
+  detected_prefix:'✓ 商品を認識しました ·', seconds:'秒',
+  lbl_material:'素材', lbl_style:'スタイル', lbl_category:'カテゴリー', lbl_application:'用途', lbl_keywords:'検索キーワードを生成しました',
+  region_title:'生産地域', price_title:'価格分析（卸売）', price_avg_label:'平均卸売価格:', price_per_unit:'/ 個',
+  suppliers_found:'件のサプライヤーが見つかりました · 1688 + Alibaba',
+  sup_manufacturer:'✓ 製造業者', sup_trader:'⚠ 貿易会社 — 工場ではありません', sup_years:'年', sup_region_mismatch:'⚠ 想定産業集積地外',
+  price_below:'👍 平均以下', price_average:'市場平均', price_above:'平均以上',
+  sup_per_unit:'1個あたり', sup_reviews:'レビュー', sup_per_month:'個/月', sup_capital:'資本金', sup_moq:'最低発注数', sup_staff:'従業員',
+  sup_wechat:'💬 WeChat担当者', sup_1688:'🔗 1688プロフィール', sup_trader_warning:'仲介業者 — 価格が高く工場との直接連絡なし',
+  outreach_title:'すぐ送れるサプライヤー向けメッセージ', outreach_translate_prefix:'翻訳:', outreach_copy:'📋 中国語でコピー', outreach_copied:'📋 コピーしました — WeChatに貼り付けてください',
+  mf_title:'マーケットプレイス分析', mf_desc:'AI推定 — この商品がeBay、Shopify、Wildberries、Ozonで売れるか、ニッチの競争度を分析します。これは一般的な市場知識に基づく分析的推定であり、リアルタイムの出品確認ではありません。',
+  mf_btn:'🌍 市場を分析する', mf_loading:'⏳ 市場を分析中...', mf_competition_fallback:'ニッチの競争度',
+  mf_disclaimer:'⚠️ これは一般的な市場知識に基づくAI推定であり、eBay/Shopify/WB/Ozonのリアルタイム出品確認ではありません。',
+  rescan_btn:'📷 別の商品を撮影',
+  err_fill_fields:'すべての項目を入力してください', err_generic:'エラー:', wait:'お待ちください...', confirm_logout:'ログアウトしますか？',
+  file_format_error:'対応形式: JPG, PNG, WEBP。\\niPhone: 設定 → カメラ → フォーマット → 高効率優先'
+},
+ar: {
+  auth_sub:'منصة للعثور على مصنّعين في الصين', tab_login:'تسجيل الدخول', tab_register:'إنشاء حساب',
+  label_email:'البريد الإلكتروني', label_password:'كلمة المرور', btn_login:'تسجيل الدخول', btn_register:'إنشاء حساب',
+  hint_no_account:'ليس لديك حساب؟ اضغط «إنشاء حساب»', hint_has_account:'لديك حساب بالفعل؟ اضغط «تسجيل الدخول»',
+  ph_password_login:'كلمة المرور الخاصة بك', ph_password_register:'6 أحرف على الأقل',
+  home_title:'ابحث عن مصنّع', home_sub:'صوّر أي منتج — سيتعرف الذكاء الاصطناعي عليه ويجد مصانع في الصين خلال ثوانٍ',
+  btn_take_photo:'📷 تصوير المنتج', btn_gallery:'🖼 اختيار من المعرض',
+  feat_region:'منطقة التصنيع ولماذا هناك تحديداً', feat_suppliers:'5 مصانع — يميز بين المصنّع والتاجر الوسيط',
+  feat_price:'السعر باليوان مع تحويل مباشر حسب سعر البنك المركزي الروسي', feat_market:'تحليل المبيعات على eBay/Shopify/WB/Ozon · Pro',
+  limit_title:'⚠️ تم الوصول للحد اليومي', limit_text:'راسل @VIKTOR_CN1 على تيليجرام أو WeChat Zaikin1_v لترقية باقتك.',
+  loading_title:'جاري تحليل المنتج...', load_prepare:'جاري تجهيز الصورة...', load_send:'جاري الإرسال للذكاء الاصطناعي...',
+  load_region:'جاري تحديد منطقة التصنيع...', load_suppliers:'جاري البحث عن 5 موردين...', load_fx:'جاري حساب سعر الصرف...',
+  step1:'التعرف على المنتج من الصورة', step2:'تحليل منطقة التصنيع', step3:'البحث عن 5 موردين على 1688', step4:'مقارنة الأسعار وسعر الصرف',
+  detected_prefix:'✓ تم التعرف على المنتج ·', seconds:'ثانية',
+  lbl_material:'الخامة', lbl_style:'النمط', lbl_category:'الفئة', lbl_application:'الاستخدامات', lbl_keywords:'تم إنشاء كلمات بحث',
+  region_title:'منطقة التصنيع', price_title:'تحليل السعر (جملة)', price_avg_label:'متوسط سعر الجملة:', price_per_unit:'/ قطعة',
+  suppliers_found:'مورد تم العثور عليهم · 1688 + Alibaba',
+  sup_manufacturer:'✓ مصنّع', sup_trader:'⚠ تاجر — ليس مصنعاً', sup_years:'سنوات', sup_region_mismatch:'⚠ ليس من المنطقة الصناعية المتوقعة',
+  price_below:'👍 أقل من المتوسط', price_average:'متوسط السوق', price_above:'أعلى من المتوسط',
+  sup_per_unit:'للقطعة', sup_reviews:'تقييم', sup_per_month:'قطعة/شهر', sup_capital:'رأس المال', sup_moq:'الحد الأدنى للطلب', sup_staff:'موظف',
+  sup_wechat:'💬 مدير عبر WeChat', sup_1688:'🔗 الملف على 1688', sup_trader_warning:'وسيط — سعر أعلى وبدون تواصل مباشر مع المصنع',
+  outreach_title:'رسالة جاهزة للإرسال للمورد', outreach_translate_prefix:'الترجمة:', outreach_copy:'📋 نسخ بالصينية', outreach_copied:'📋 تم النسخ — الصقها في WeChat',
+  mf_title:'تحليل الأسواق الإلكترونية', mf_desc:'تقدير بالذكاء الاصطناعي — هل سيُباع هذا المنتج على eBay وShopify وWildberries وOzon — ومدى المنافسة في هذا المجال. هذا تقدير تحليلي مبني على معرفة عامة بالسوق، وليس فحصاً فعلياً للقوائم الحية.',
+  mf_btn:'🌍 تحليل السوق', mf_loading:'⏳ جاري تحليل السوق...', mf_competition_fallback:'المنافسة في هذا المجال',
+  mf_disclaimer:'⚠️ هذا تقدير بالذكاء الاصطناعي مبني على معرفة عامة بالسوق، وليس فحصاً فعلياً لحظياً للقوائم على eBay/Shopify/WB/Ozon.',
+  rescan_btn:'📷 تصوير منتج آخر',
+  err_fill_fields:'يرجى تعبئة جميع الحقول', err_generic:'خطأ:', wait:'يرجى الانتظار...', confirm_logout:'تسجيل الخروج من الحساب؟',
+  file_format_error:'الصيغ المدعومة: JPG, PNG, WEBP.\\nعلى الآيفون: الإعدادات ← الكاميرا ← التنسيقات ← الأكثر توافقاً'
+}
+};
+
+let currentLang = localStorage.getItem('buyerai_lang') || 'ru';
+function t(key) { return (I18N[currentLang] && I18N[currentLang][key]) || I18N.ru[key] || key; }
+
+function buildLangMenu() {
+  const menu = document.getElementById('lang-menu');
+  menu.innerHTML = '';
+  LANGS.forEach(l => {
+    const item = document.createElement('div');
+    item.className = 'lang-item' + (l.code === currentLang ? ' active' : '');
+    item.innerHTML = `<span class="lang-flag">${l.flag}</span><span>${l.label}</span>`;
+    item.onclick = () => setLang(l.code);
+    menu.appendChild(item);
+  });
+}
+
+function toggleLangMenu() {
+  document.getElementById('lang-menu').classList.toggle('open');
+}
+
+function setLang(code) {
+  currentLang = code;
+  localStorage.setItem('buyerai_lang', code);
+  document.getElementById('lang-menu').classList.remove('open');
+  applyI18N();
+}
+
+function applyI18N() {
+  const meta = LANGS.find(l => l.code === currentLang) || LANGS[0];
+  document.getElementById('lang-code').textContent = currentLang.toUpperCase();
+  document.documentElement.setAttribute('lang', currentLang);
+  document.documentElement.setAttribute('dir', meta.rtl ? 'rtl' : 'ltr');
+  buildLangMenu();
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.getElementById('auth-btn').textContent = isLogin ? t('btn_login') : t('btn_register');
+  document.getElementById('auth-hint').textContent = isLogin ? t('hint_no_account') : t('hint_has_account');
+  document.getElementById('auth-pass').placeholder = isLogin ? t('ph_password_login') : t('ph_password_register');
+  document.getElementById('btn-logout').title = t('confirm_logout');
+  document.getElementById('btn-copy-outreach').textContent = t('outreach_copy');
+  document.getElementById('btn-market-fit').textContent = t('mf_btn');
+  document.getElementById('load-msg').textContent = t('load_prepare');
+}
+
+document.addEventListener('click', (e) => {
+  const wrap = document.querySelector('.lang-wrap');
+  if (wrap && !wrap.contains(e.target)) document.getElementById('lang-menu').classList.remove('open');
+});
+
+// ── App logic ────────────────────────────────────────────────────────────
 let token = localStorage.getItem('buyerai_token');
 let userData = null;
 let imgURL = null;
@@ -377,6 +576,7 @@ let lastOutreachCN = '';
 let lastProductData = null;
 
 async function init() {
+  applyI18N();
   if (!token) { show('s-auth'); return; }
   try {
     userData = await api('GET', '/api/me');
@@ -395,7 +595,7 @@ async function api(method, endpoint, body) {
   if (body) opts.body = JSON.stringify(body);
   const r = await fetch(endpoint, opts);
   const data = await r.json();
-  if (!r.ok) throw new Error(data.error || 'Ошибка сервера');
+  if (!r.ok) throw new Error(data.error || 'Server error');
   return data;
 }
 
@@ -412,7 +612,7 @@ function show(id) {
 function goHome() { show('s-home'); }
 
 function logout() {
-  if (!confirm('Выйти из аккаунта?')) return;
+  if (!confirm(t('confirm_logout'))) return;
   localStorage.removeItem('buyerai_token');
   token = null; userData = null;
   show('s-auth');
@@ -422,10 +622,10 @@ function switchTab(tab) {
   isLogin = (tab === 'login');
   document.getElementById('tab-login').classList.toggle('on', isLogin);
   document.getElementById('tab-reg').classList.toggle('on', !isLogin);
-  document.getElementById('auth-btn').textContent = isLogin ? 'Войти' : 'Создать аккаунт';
-  document.getElementById('auth-hint').textContent = isLogin ? 'Нет аккаунта? Нажми «Регистрация»' : 'Уже есть аккаунт? Нажми «Войти»';
+  document.getElementById('auth-btn').textContent = isLogin ? t('btn_login') : t('btn_register');
+  document.getElementById('auth-hint').textContent = isLogin ? t('hint_no_account') : t('hint_has_account');
   document.getElementById('auth-error').style.display = 'none';
-  document.getElementById('auth-pass').placeholder = isLogin ? 'Твой пароль' : 'Минимум 6 символов';
+  document.getElementById('auth-pass').placeholder = isLogin ? t('ph_password_login') : t('ph_password_register');
 }
 
 function showAuthError(msg) {
@@ -437,10 +637,10 @@ function showAuthError(msg) {
 async function doAuth() {
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-pass').value;
-  if (!email || !password) { showAuthError('Заполни все поля'); return; }
+  if (!email || !password) { showAuthError(t('err_fill_fields')); return; }
   const btn = document.getElementById('auth-btn');
   btn.disabled = true;
-  btn.textContent = 'Подождите...';
+  btn.textContent = t('wait');
   showAuthError('');
   try {
     const endpoint = isLogin ? '/api/login' : '/api/register';
@@ -453,7 +653,7 @@ async function doAuth() {
   } catch (e) {
     showAuthError(e.message);
     btn.disabled = false;
-    btn.textContent = isLogin ? 'Войти' : 'Создать аккаунт';
+    btn.textContent = isLogin ? t('btn_login') : t('btn_register');
   }
 }
 
@@ -463,13 +663,13 @@ function updateUsage() {
   const pill = document.getElementById('usage-pill');
   const banner = document.getElementById('limit-banner');
   if (unlimited_testing) {
-    pill.textContent = '🧪 Без лимита (тест)';
+    pill.textContent = '🧪';
     pill.className = 'usage-pill';
     if (banner) banner.style.display = 'none';
     return;
   }
   const remaining = limit - daily_count;
-  pill.textContent = `${daily_count}/${limit} сегодня`;
+  pill.textContent = `${daily_count}/${limit}`;
   pill.className = 'usage-pill';
   if (remaining <= 1) pill.classList.add('full');
   else if (remaining <= 2) pill.classList.add('warn');
@@ -493,14 +693,14 @@ async function handleFile(e) {
   const f = e.target.files[0];
   if (!f) return;
   if (!['image/jpeg','image/png','image/webp'].includes(f.type)) {
-    alert('Поддерживаемые форматы: JPG, PNG, WEBP.\nНа iPhone: Настройки → Камера → Форматы → Максимальная совместимость');
+    alert(t('file_format_error'));
     return;
   }
   if (imgURL) URL.revokeObjectURL(imgURL);
   imgURL = URL.createObjectURL(f);
   t0 = Date.now();
   show('s-load'); setStep(1);
-  document.getElementById('load-msg').textContent = 'Подготавливаю изображение...';
+  document.getElementById('load-msg').textContent = t('load_prepare');
   const b64 = await new Promise((res,rej) => {
     const r = new FileReader();
     r.onload = () => res(r.result.split(',')[1]);
@@ -508,13 +708,13 @@ async function handleFile(e) {
     r.readAsDataURL(f);
   });
   try {
-    setStep(1); document.getElementById('load-msg').textContent = 'Отправляю в ИИ...';
-    const data = await api('POST', '/api/analyze', { image: b64, mediaType: f.type });
-    setStep(2); document.getElementById('load-msg').textContent = 'Определяю регион производства...';
+    setStep(1); document.getElementById('load-msg').textContent = t('load_send');
+    const data = await api('POST', '/api/analyze', { image: b64, mediaType: f.type, lang: currentLang });
+    setStep(2); document.getElementById('load-msg').textContent = t('load_region');
     await delay(500);
-    setStep(3); document.getElementById('load-msg').textContent = 'Ищу 5 производителей...';
+    setStep(3); document.getElementById('load-msg').textContent = t('load_suppliers');
     await delay(500);
-    setStep(4); document.getElementById('load-msg').textContent = 'Считаю курс ЦБ...';
+    setStep(4); document.getElementById('load-msg').textContent = t('load_fx');
     await delay(400);
     if (data.usage) { userData = { ...userData, ...data.usage }; userData.daily_count = data.usage.count; updateUsage(); }
     renderResults(data);
@@ -522,12 +722,7 @@ async function handleFile(e) {
     window.scrollTo(0, 0);
   } catch (err) {
     show('s-home');
-    if (err.message.includes('Лимит')) {
-      if (userData) { userData.daily_count = userData.limit; updateUsage(); }
-      alert(err.message);
-    } else {
-      alert('Ошибка: ' + err.message);
-    }
+    alert(t('err_generic') + ' ' + err.message);
   }
 }
 
@@ -549,7 +744,8 @@ function renderResults(d) {
 
   lastProductData = {
     productName: d.productName, productNameCN: d.productNameCN, category: d.category,
-    material: d.material, style: d.style, application: d.application, priceAnalysis: d.priceAnalysis
+    material: d.material, style: d.style, application: d.application, priceAnalysis: d.priceAnalysis,
+    lang: currentLang
   };
 
   // Region block
@@ -573,18 +769,14 @@ function renderResults(d) {
     document.getElementById('price-avg-usd').textContent = (p.usdAvg != null) ? `(~$${p.usdAvg})` : '';
     const vEl = document.getElementById('price-verdict');
     vEl.textContent = p.verdict || '';
-    vEl.className = 'price-verdict';
-    const vlow = (p.verdict||'').toLowerCase();
-    if (vlow.includes('выгод')) vEl.classList.add('pv-below');
-    else if (vlow.includes('завыш')) vEl.classList.add('pv-above');
-    else vEl.classList.add('pv-average');
+    vEl.className = 'price-verdict ' + (p.verdictType === 'below' ? 'pv-below' : p.verdictType === 'above' ? 'pv-above' : 'pv-average');
   } else {
     priceBlock.style.display = 'none';
   }
 
-  document.getElementById('res-cnt').textContent = (d.suppliers?.length||5) + ' производителей найдено · 1688 + Alibaba';
+  document.getElementById('res-cnt').textContent = (d.suppliers?.length||5) + ' ' + t('suppliers_found');
   const sup = document.getElementById('res-sups'); sup.innerHTML = '';
-  const priceVsLabel = { below: ['👍 Ниже среднего','bg-g'], average: ['Среднерыночная','bg-b'], above: ['Выше среднего','bg-o'] };
+  const priceVsLabel = { below: [t('price_below'),'bg-g'], average: [t('price_average'),'bg-b'], above: [t('price_above'),'bg-o'] };
 
   (d.suppliers||[]).forEach((s, i) => {
     const c = document.createElement('div'); c.className = 'sup-card';
@@ -592,16 +784,16 @@ function renderResults(d) {
     else if (i >= 2) c.style.opacity = '0.94';
 
     const regionBadge = (s.type !== 'trader' && s.regionMatch === false)
-      ? `<span class="bg bg-red">⚠ Не из региона-кластера</span>` : '';
+      ? `<span class="bg bg-red">${t('sup_region_mismatch')}</span>` : '';
     const pvb = priceVsLabel[s.priceVsAvg];
     const priceBadge = pvb ? `<span class="bg ${pvb[1]}">${pvb[0]}</span>` : '';
     const usdLine = (s.usdMin != null) ? `<div class="sup-usd">~$${s.usdMin}–${s.usdMax}</div>` : '';
 
     if (s.type === 'trader') {
-      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-o">⚠ Трейдер — не завод</span><span class="bg bg-gr">${s.years} лет</span></div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div style="font-size:15px;font-weight:800;color:#bbb">¥${s.priceMin}–${s.priceMax}</div>${usdLine}</div></div><div style="margin-top:7px;font-size:11px;color:#c47a3a;font-weight:500">Перекупщик — цена выше, нет прямого контакта с заводом</div>${(s.managerName)?`<div class="sup-manager" style="margin-top:9px"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}</div>`;
+      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-o">${t('sup_trader')}</span><span class="bg bg-gr">${s.years} ${t('sup_years')}</span></div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div style="font-size:15px;font-weight:800;color:#bbb">¥${s.priceMin}–${s.priceMax}</div>${usdLine}</div></div><div style="margin-top:7px;font-size:11px;color:#c47a3a;font-weight:500">${t('sup_trader_warning')}</div>${(s.managerName)?`<div class="sup-manager" style="margin-top:9px"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}</div>`;
       c.querySelector('.sup-name').textContent = s.name;
     } else {
-      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-g">✓ Производитель</span><span class="bg bg-gr">${s.years} лет</span>${s.cert?`<span class="bg bg-b">${s.cert}</span>`:''}${priceBadge}${regionBadge}</div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div class="sup-price">¥${s.priceMin}–${s.priceMax}</div><div class="sup-unit">за штуку</div>${usdLine}</div></div></div><div class="stats"><div class="stat"><div class="st-v">★ ${s.rating}</div><div class="st-l">${(s.reviews||0).toLocaleString()} отз.</div></div><div class="stat"><div class="st-v">${s.monthlySales||'—'}</div><div class="st-l">шт/мес</div></div><div class="stat"><div class="st-v">¥${s.capital}</div><div class="st-l">капитал</div></div><div class="stat"><div class="st-v">${s.moq}</div><div class="st-l">MOQ</div></div></div><div class="sup-bot"><div class="sup-meta"><span>📍 <span class="loc"></span></span><span>👥 <span class="stf"></span> сотр.</span></div>${(s.managerName)?`<div class="sup-manager"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}<div class="sup-btns"><button class="btn-wc">💬 WeChat менеджера</button><button class="btn-lk">🔗 1688 профиль</button></div></div>`;
+      c.innerHTML = `<div class="sup-top"><div class="sup-badges"><span class="bg bg-g">${t('sup_manufacturer')}</span><span class="bg bg-gr">${s.years} ${t('sup_years')}</span>${s.cert?`<span class="bg bg-b">${s.cert}</span>`:''}${priceBadge}${regionBadge}</div><div class="sup-row"><span class="sup-name"></span><div class="sup-price-box"><div class="sup-price">¥${s.priceMin}–${s.priceMax}</div><div class="sup-unit">${t('sup_per_unit')}</div>${usdLine}</div></div></div><div class="stats"><div class="stat"><div class="st-v">★ ${s.rating}</div><div class="st-l">${(s.reviews||0).toLocaleString()} ${t('sup_reviews')}</div></div><div class="stat"><div class="st-v">${s.monthlySales||'—'}</div><div class="st-l">${t('sup_per_month')}</div></div><div class="stat"><div class="st-v">¥${s.capital}</div><div class="st-l">${t('sup_capital')}</div></div><div class="stat"><div class="st-v">${s.moq}</div><div class="st-l">${t('sup_moq')}</div></div></div><div class="sup-bot"><div class="sup-meta"><span>📍 <span class="loc"></span></span><span>👥 <span class="stf"></span> ${t('sup_staff')}</span></div>${(s.managerName)?`<div class="sup-manager"><span>👤 ${s.managerName}</span><span>${s.managerPhone||''}</span></div>`:''}<div class="sup-btns"><button class="btn-wc">${t('sup_wechat')}</button><button class="btn-lk">${t('sup_1688')}</button></div></div>`;
       c.querySelector('.sup-name').textContent = s.name;
       c.querySelector('.loc').textContent = s.location || '';
       c.querySelector('.stf').textContent = s.staff || '';
@@ -614,28 +806,25 @@ function renderResults(d) {
   if (d.outreachMessageCN) {
     outreachBlock.style.display = 'block';
     document.getElementById('outreach-cn').textContent = d.outreachMessageCN;
-    document.getElementById('outreach-ru').textContent = d.outreachMessageRU ? ('Перевод: ' + d.outreachMessageRU) : '';
+    document.getElementById('outreach-translated').textContent = d.outreachMessageTranslated ? (t('outreach_translate_prefix') + ' ' + d.outreachMessageTranslated) : '';
     lastOutreachCN = d.outreachMessageCN;
     const btn = document.getElementById('btn-copy-outreach');
-    btn.textContent = '📋 Скопировать на китайском';
+    btn.textContent = t('outreach_copy');
     btn.classList.remove('copied');
   } else {
     outreachBlock.style.display = 'none';
   }
 
-  // Reset extra tool sections for the new product
-  document.getElementById('ozon-card-result').style.display = 'none';
-  document.getElementById('ozon-card-result').innerHTML = '';
-  document.getElementById('btn-ozon-card').textContent = '📝 Сгенерировать карточку';
+  // Reset market-fit tool for the new product
   document.getElementById('mf-result').style.display = 'none';
   document.getElementById('mf-result').innerHTML = '';
-  document.getElementById('btn-market-fit').textContent = '🌍 Анализировать рынок';
+  document.getElementById('btn-market-fit').textContent = t('mf_btn');
 }
 
 function copyOutreach() {
   if (!lastOutreachCN) return;
   const btn = document.getElementById('btn-copy-outreach');
-  copyText(lastOutreachCN, btn, '📋 Скопировано — вставь в WeChat', '📋 Скопировать на китайском');
+  copyText(lastOutreachCN, btn, t('outreach_copied'), t('outreach_copy'));
 }
 
 function copyText(text, btnEl, copiedLabel, originalLabel) {
@@ -658,68 +847,12 @@ function fallbackCopy(text, cb) {
   document.body.removeChild(ta);
 }
 
-// ── Ozon card generator ──────────────────────────────────────────────────
-async function loadOzonCard() {
-  if (!lastProductData) return;
-  const btn = document.getElementById('btn-ozon-card');
-  btn.disabled = true; btn.textContent = '⏳ Генерирую карточку...';
-  try {
-    const d = await api('POST', '/api/generate-card', lastProductData);
-    renderOzonCard(d);
-  } catch (err) {
-    alert('Ошибка: ' + err.message);
-  } finally {
-    btn.disabled = false; btn.textContent = '📝 Сгенерировать карточку';
-  }
-}
-
-function renderOzonCard(d) {
-  const box = document.getElementById('ozon-card-result');
-  box.style.display = 'block';
-  box.innerHTML = '';
-
-  const mkField = (label, text, mini) => {
-    const f = document.createElement('div'); f.className = 'ozon-field';
-    f.innerHTML = `<div class="ozon-label"><span class="ozon-label-txt">${label}</span><button class="btn-mini-copy">Скопировать</button></div><div class="ozon-text"></div>`;
-    f.querySelector('.ozon-text').textContent = text;
-    const cbtn = f.querySelector('.btn-mini-copy');
-    cbtn.onclick = () => copyText(text, cbtn, '✓ Готово', 'Скопировать');
-    return f;
-  };
-
-  box.appendChild(mkField('Заголовок', d.title || ''));
-  box.appendChild(mkField('Краткое описание', d.shortDescription || ''));
-
-  if (Array.isArray(d.bullets) && d.bullets.length) {
-    const f = document.createElement('div'); f.className = 'ozon-field';
-    f.innerHTML = `<div class="ozon-label"><span class="ozon-label-txt">Особенности</span></div>`;
-    const ul = document.createElement('ul'); ul.className = 'ozon-bullets';
-    d.bullets.forEach(b => { const li = document.createElement('li'); li.textContent = b; ul.appendChild(li); });
-    f.appendChild(ul);
-    box.appendChild(f);
-  }
-
-  box.appendChild(mkField('Полное описание', d.fullDescription || ''));
-
-  if (Array.isArray(d.seoKeywords) && d.seoKeywords.length) {
-    const f = document.createElement('div'); f.className = 'ozon-field';
-    const kwText = d.seoKeywords.join(', ');
-    f.innerHTML = `<div class="ozon-label"><span class="ozon-label-txt">SEO-ключи</span><button class="btn-mini-copy">Скопировать</button></div>`;
-    const row = document.createElement('div'); row.className = 'kw-row';
-    d.seoKeywords.forEach(k => { const s = document.createElement('span'); s.className = 'kw'; s.textContent = k; row.appendChild(s); });
-    f.appendChild(row);
-    const cbtn = f.querySelector('.btn-mini-copy');
-    cbtn.onclick = () => copyText(kwText, cbtn, '✓ Готово', 'Скопировать');
-    box.appendChild(f);
-  }
-}
-
-// ── Market fit analysis (Pro) ────────────────────────────────────────────
+// ── Market fit analysis ──────────────────────────────────────────────────
 async function loadMarketFit() {
   if (!lastProductData) return;
   const btn = document.getElementById('btn-market-fit');
   const box = document.getElementById('mf-result');
-  btn.disabled = true; btn.textContent = '⏳ Анализирую рынок...';
+  btn.disabled = true; btn.textContent = t('mf_loading');
   try {
     const d = await api('POST', '/api/market-fit', lastProductData);
     renderMarketFit(d);
@@ -727,7 +860,7 @@ async function loadMarketFit() {
     box.style.display = 'block';
     box.innerHTML = `<div class="upsell-box">🔒 ${err.message}</div>`;
   } finally {
-    btn.disabled = false; btn.textContent = '🌍 Анализировать рынок';
+    btn.disabled = false; btn.textContent = t('mf_btn');
   }
 }
 
@@ -736,10 +869,9 @@ function renderMarketFit(d) {
   box.style.display = 'block';
   box.innerHTML = '';
 
-  const verdictClass = v => {
-    const s = (v||'').toLowerCase();
-    if (s.includes('высок')) return 'bg-g';
-    if (s.includes('низк')) return 'bg-red';
+  const verdictClass = level => {
+    if (level === 'high') return 'bg-g';
+    if (level === 'low') return 'bg-red';
     return 'bg-o';
   };
 
@@ -747,7 +879,7 @@ function renderMarketFit(d) {
     const wrap = document.createElement('div');
     d.platforms.forEach(p => {
       const row = document.createElement('div'); row.className = 'mf-platform';
-      row.innerHTML = `<div><div class="mf-pname"></div><div class="mf-preason"></div></div><span class="bg mf-pverdict ${verdictClass(p.verdict)}"></span>`;
+      row.innerHTML = `<div><div class="mf-pname"></div><div class="mf-preason"></div></div><span class="bg mf-pverdict ${verdictClass(p.verdictLevel)}"></span>`;
       row.querySelector('.mf-pname').textContent = p.name || '';
       row.querySelector('.mf-preason').textContent = p.reason || '';
       row.querySelector('.mf-pverdict').textContent = p.verdict || '';
@@ -758,7 +890,7 @@ function renderMarketFit(d) {
 
   if (d.competitionScore != null) {
     const sc = document.createElement('div'); sc.className = 'mf-score-row';
-    sc.innerHTML = `<div class="mf-score-num">${d.competitionScore}/10</div><div class="mf-score-label">${d.competitionLabel || 'Конкуренция в нише'}</div>`;
+    sc.innerHTML = `<div class="mf-score-num">${d.competitionScore}/10</div><div class="mf-score-label">${d.competitionLabel || t('mf_competition_fallback')}</div>`;
     box.appendChild(sc);
   }
 
@@ -768,7 +900,7 @@ function renderMarketFit(d) {
   }
 
   const disc = document.createElement('div'); disc.className = 'mf-disclaimer';
-  disc.textContent = '⚠️ Это оценка ИИ на основе общих знаний о рынке, не проверка реальных листингов в реальном времени на eBay/Shopify/WB/Ozon.';
+  disc.textContent = t('mf_disclaimer');
   box.appendChild(disc);
 }
 
