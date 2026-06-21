@@ -41,7 +41,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 /* HOME */
 .home{padding:0 0 28px;text-align:center}
 .home-hero{background:linear-gradient(135deg,#FFE8CF 0%,#FFD6E8 55%,#F4D9FF 100%);padding:42px 24px 34px;border-radius:0 0 32px 32px;margin-bottom:24px}
-.hero{width:92px;height:92px;background:#fff;border-radius:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:42px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.hero-orbit{position:relative;width:140px;height:140px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center}
+.orbit-ring{position:absolute;inset:0;border-radius:50%}
+.ring1{border:1.5px dashed rgba(47,95,224,0.35);animation:spinSlow 18s linear infinite}
+.ring2{inset:14%;border:1.5px solid rgba(255,255,255,0.65);animation:spinSlow 12s linear infinite reverse}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.orbit-dot{position:absolute;top:50%;left:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#2F5FE0;box-shadow:0 0 10px rgba(47,95,224,0.65)}
+.dot2{width:6px;height:6px;background:#fff;box-shadow:0 0 8px rgba(255,255,255,0.8)}
+.dot1{animation:orbit1 6s linear infinite}
+.dot2{animation:orbit2 9s linear infinite reverse}
+@keyframes orbit1{from{transform:rotate(0deg) translateX(68px)}to{transform:rotate(360deg) translateX(68px)}}
+@keyframes orbit2{from{transform:rotate(0deg) translateX(54px)}to{transform:rotate(360deg) translateX(54px)}}
+.hero{width:92px;height:92px;background:#fff;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 8px 26px rgba(0,0,0,0.16);position:relative;z-index:2;animation:floatY 3s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .home h2{font-size:23px;font-weight:800;color:#15171C;margin-bottom:8px;letter-spacing:-0.6px}
 .home-sub{font-size:13.5px;color:#5b5b66;line-height:1.6}
 .home-body{padding:0 22px}
@@ -66,19 +78,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .step-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#bbb;font-weight:500}
 .step-item.done{color:#16A34A}.step-item.active{color:#2F5FE0;font-weight:700}
 /* DETECT VIEW */
-.detect-view{background:#0e0e14;padding:14px 12px}
-.img-wrap{position:relative;border-radius:16px;overflow:hidden}
-.img-wrap img{width:100%;max-height:260px;object-fit:cover;display:block}
-.det-border{position:absolute;inset:0;border:2px dashed #2F5FE0;border-radius:16px;pointer-events:none}
-.corner{position:absolute;width:20px;height:20px;border-color:#2F5FE0;border-style:solid}
-.tl{top:8px;left:8px;border-width:3px 0 0 3px;border-radius:4px 0 0 0}
-.tr{top:8px;right:8px;border-width:3px 3px 0 0;border-radius:0 4px 0 0}
-.bl{bottom:8px;left:8px;border-width:0 0 3px 3px;border-radius:0 0 0 4px}
-.br{bottom:8px;right:8px;border-width:0 3px 3px 0;border-radius:0 0 4px 0}
-.scanl{position:absolute;left:0;right:0;height:2px;background:#2F5FE0;animation:scan 2.2s linear infinite;pointer-events:none}
-@keyframes scan{0%{top:0;opacity:0}6%{opacity:.8}90%{opacity:.8}100%{top:100%;opacity:0}}
-.conf-badge{position:absolute;bottom:10px;right:10px;background:#15171C;color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:9px}
-.detect-status{text-align:center;margin-top:10px;font-size:12px;color:#2F5FE0;font-weight:700}
+.detect-view{background:#0b0b12;padding:14px 12px}
+.img-wrap{position:relative;border-radius:18px;overflow:hidden}
+.img-wrap img{width:100%;max-height:260px;object-fit:cover;display:block;filter:saturate(1.05)}
+.scan-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(91,141,239,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(91,141,239,0.12) 1px,transparent 1px);background-size:22px 22px;opacity:0.55;pointer-events:none;mix-blend-mode:screen}
+.det-border{position:absolute;inset:0;border:1.5px solid rgba(91,141,239,0.4);border-radius:18px;pointer-events:none}
+.corner{position:absolute;width:22px;height:22px;border-color:#5B8DEF;border-style:solid;filter:drop-shadow(0 0 6px rgba(91,141,239,0.85));animation:cornerPulse 2.2s ease-in-out infinite}
+.tl{top:9px;left:9px;border-width:3px 0 0 3px;border-radius:6px 0 0 0}
+.tr{top:9px;right:9px;border-width:3px 3px 0 0;border-radius:0 6px 0 0}
+.bl{bottom:9px;left:9px;border-width:0 0 3px 3px;border-radius:0 0 0 6px}
+.br{bottom:9px;right:9px;border-width:0 3px 3px 0;border-radius:0 0 6px 0}
+@keyframes cornerPulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.reticle{position:absolute;top:50%;left:50%;width:50px;height:50px;margin:-25px;border:1.5px solid rgba(91,141,239,0.55);border-radius:50%;pointer-events:none;animation:reticlePulse 2.6s ease-out infinite}
+@keyframes reticlePulse{0%{transform:scale(0.35);opacity:0}25%{opacity:0.85}100%{transform:scale(1.7);opacity:0}}
+.scanl{position:absolute;left:5%;right:5%;height:38px;background:linear-gradient(180deg,rgba(91,141,239,0) 0%,rgba(91,141,239,0.5) 42%,rgba(160,195,255,0.95) 50%,rgba(91,141,239,0.5) 58%,rgba(91,141,239,0) 100%);filter:blur(0.5px);animation:scan 2.6s cubic-bezier(.45,0,.55,1) infinite;pointer-events:none}
+@keyframes scan{0%{top:-12%;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:100%;opacity:0}}
+.conf-badge{position:absolute;bottom:11px;right:11px;background:rgba(21,23,28,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-size:11px;font-weight:800;padding:6px 13px 6px 9px;border-radius:10px;display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.14)}
+.conf-dot{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;flex-shrink:0;animation:dotBlink 1.6s ease-in-out infinite}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:0.3}}
+.detect-status{text-align:center;margin-top:10px;font-size:12px;color:#5B8DEF;font-weight:700}
 /* PRODUCT INFO */
 .product-info{padding:18px 16px 16px;border-bottom:1px solid #F0F0F2}
 .prod-name{font-size:21px;font-weight:800;color:#15171C;margin-bottom:3px;letter-spacing:-0.6px}
@@ -221,7 +239,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <!-- HOME SCREEN -->
   <div id="s-home" class="home" style="display:none">
     <div class="home-hero">
-      <div class="hero">📷</div>
+      <div class="hero-orbit">
+        <div class="orbit-ring ring1"></div>
+        <div class="orbit-ring ring2"></div>
+        <div class="orbit-dot dot1"></div>
+        <div class="orbit-dot dot2"></div>
+        <div class="hero">📷</div>
+      </div>
       <h2>Найди производителя</h2>
       <p class="home-sub">Сфотографируй любой товар — ИИ определит что это и найдёт заводы в Китае за секунды</p>
     </div>
@@ -266,11 +290,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="detect-view">
       <div class="img-wrap">
         <img id="res-img" alt="Товар">
+        <div class="scan-grid"></div>
         <div class="det-border"></div>
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
+        <div class="reticle"></div>
         <div class="scanl"></div>
-        <div class="conf-badge" id="res-conf"></div>
+        <div class="conf-badge"><span class="conf-dot"></span><span id="res-conf"></span></div>
       </div>
       <div class="detect-status">✓ Товар определён · <span id="res-time"></span> сек</div>
     </div>
