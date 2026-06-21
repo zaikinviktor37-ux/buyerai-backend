@@ -459,14 +459,20 @@ async function doAuth() {
 
 function updateUsage() {
   if (!userData) return;
-  const { daily_count, limit, plan } = userData;
+  const { daily_count, limit, unlimited_testing } = userData;
   const pill = document.getElementById('usage-pill');
+  const banner = document.getElementById('limit-banner');
+  if (unlimited_testing) {
+    pill.textContent = '🧪 Без лимита (тест)';
+    pill.className = 'usage-pill';
+    if (banner) banner.style.display = 'none';
+    return;
+  }
   const remaining = limit - daily_count;
   pill.textContent = `${daily_count}/${limit} сегодня`;
   pill.className = 'usage-pill';
   if (remaining <= 1) pill.classList.add('full');
   else if (remaining <= 2) pill.classList.add('warn');
-  const banner = document.getElementById('limit-banner');
   if (banner) banner.style.display = (daily_count >= limit) ? 'block' : 'none';
 }
 
