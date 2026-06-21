@@ -23,6 +23,12 @@ const MARKET_FIT_OPEN_FOR_ALL = true;
 // Flip to false to re-enable the per-plan daily limits below.
 const USAGE_LIMITS_OPEN_FOR_ALL = true;
 
+// ── Supported analysis languages ─────────────────────────────────────────────
+const LANG_NAMES = {
+  ru: 'Russian', en: 'English', ko: 'Korean', ja: 'Japanese', ar: 'Arabic'
+};
+function langName(code) { return LANG_NAMES[code] || LANG_NAMES.ru; }
+
 // ── Live FX rate via CBR (CNY → USD cross rate) ──────────────────────────────
 let fxCache = { rate: null, ts: 0 };
 function parseCBRValue(xml, code) {
@@ -159,25 +165,26 @@ app.post('/api/analyze', requireAuth, async (req, res) => {
       });
     }
 
-    const { image, mediaType } = req.body;
+    const { image, mediaType, lang } = req.body;
     if (!image) return res.status(400).json({ error: 'Нет изображения' });
     if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API ключ не настроен на сервере' });
+    const L = langName(lang);
 
-    const prompt = `You are an expert China sourcing analyst with deep knowledge of Chinese manufacturing clusters (e.g. Yiwu = small commodities/daily goods, Shenzhen/Zhongshan/Dongguan = electronics/lighting, Foshan/Shunde = furniture/appliances, Jieyang/Yangjiang = stainless steel/hardware, Quanzhou/Jinjiang = shoes/textiles, Ningbo = plastics/molds, Guangzhou = apparel/leather goods, Wenzhou = eyewear/lighters/locks). Analyze this product image for a China B2B sourcing app and return ONLY a raw JSON object (no markdown, no backticks, just valid JSON) with this EXACT structure:
+    const prompt = `You are an expert China sourcing analyst with deep knowledge of Chinese manufacturing clusters (e.g. Yiwu = small commodities/daily goods, Shenzhen/Zhongshan/Dongguan = electronics/lighting, Foshan/Shunde = furniture/appliances, Jieyang/Yangjiang = stainless steel/hardware, Quanzhou/Jinjiang = shoes/textiles, Ningbo = plastics/molds, Guangzhou = apparel/leather goods, Wenzhou = eyewear/lighters/locks). Analyze this product image for a China B2B sourcing app and return ONLY a raw JSON object (no markdown, no backticks, just valid JSON) with this EXACT structure. Write ALL natural-language text values in ${L} (the user's selected app language) — but keep JSON keys, the "type" enum values ("manufacturer"/"trader"), and "priceVsAvg" enum values ("below"/"average"/"above") exactly as specified regardless of language:
 
-{"productName":"Russian name 2-4 words","productNameCN":"Chinese characters name","category":"category in Russian","material":"main material in Russian","style":"design style in Russian e.g. Японский минимализм","application":"use cases in Russian max 3 separated by · symbol","confidence":95,
-"region":{"cluster":"Chinese city/region name e.g. Yiwu, Zhejiang","reason":"1 sentence in Russian explaining WHY this region dominates production of this product type — mention the industrial cluster specialization"},
-"priceAnalysis":{"wholesaleLow":8.5,"wholesaleHigh":15.8,"wholesaleAvg":11.2,"unit":"CNY","verdict":"Russian text: e.g. Среднерыночная цена / Выгодное предложение / Завышенная цена — based on category typical margins"},
+{"productName":"product name 2-4 words in ${L}","productNameCN":"Chinese characters name (always Chinese, this stays Chinese regardless of app language)","category":"category in ${L}","material":"main material in ${L}","style":"design style in ${L}","application":"use cases in ${L}, max 3 separated by · symbol","confidence":95,
+"region":{"cluster":"Chinese city/region name e.g. Yiwu, Zhejiang (keep this in English/Pinyin)","reason":"1 sentence in ${L} explaining WHY this region dominates production of this product type — mention the industrial cluster specialization"},
+"priceAnalysis":{"wholesaleLow":8.5,"wholesaleHigh":15.8,"wholesaleAvg":11.2,"unit":"CNY","verdict":"text in ${L}: e.g. average market price / good deal / overpriced — based on category typical margins","verdictType":"below OR average OR above (this exact English word, NEVER translate, used internally for badge color, must match the meaning of verdict)"},
 "keywords":{"cn":["keyword1","keyword2","keyword3","keyword4"],"en":["keyword1","keyword2","keyword3"]},
 "suppliers":[
-{"name":"Realistic Chinese manufacturer company name matching the region cluster","type":"manufacturer","regionMatch":true,"rating":4.8,"reviews":3214,"monthlySales":"42,800","priceMin":8.5,"priceMax":15.8,"priceVsAvg":"below","moq":"200 шт","capital":"300万","years":9,"location":"Yiwu, Zhejiang","staff":"50–100","cert":"ISO 9001","managerName":"Realistic Chinese name e.g. 王经理 (Wang)","managerPhone":"+86 138-XXXX-XXXX realistic format"},
-{"name":"Second manufacturer matching region","type":"manufacturer","regionMatch":true,"rating":4.7,"reviews":1876,"monthlySales":"28,400","priceMin":10.2,"priceMax":18.5,"priceVsAvg":"average","moq":"100 шт","capital":"500万","years":12,"location":"Ningbo, Zhejiang","staff":"100–200","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 139-XXXX-XXXX"},
-{"name":"Third manufacturer","type":"manufacturer","regionMatch":true,"rating":4.6,"reviews":1502,"monthlySales":"19,300","priceMin":9.0,"priceMax":16.0,"priceVsAvg":"below","moq":"300 шт","capital":"200万","years":6,"location":"matching region city","staff":"30–50","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 137-XXXX-XXXX"},
-{"name":"Fourth manufacturer, possibly from a DIFFERENT region (set regionMatch false) if realistic","type":"manufacturer","regionMatch":false,"rating":4.5,"reviews":980,"monthlySales":"12,100","priceMin":12.0,"priceMax":20.0,"priceVsAvg":"above","moq":"500 шт","capital":"150万","years":4,"location":"a plausible but non-primary region","staff":"20–50","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 136-XXXX-XXXX"},
+{"name":"Realistic Chinese manufacturer company name matching the region cluster","type":"manufacturer","regionMatch":true,"rating":4.8,"reviews":3214,"monthlySales":"42,800","priceMin":8.5,"priceMax":15.8,"priceVsAvg":"below","moq":"200 pcs (in ${L})","capital":"300万","years":9,"location":"Yiwu, Zhejiang","staff":"50–100","cert":"ISO 9001","managerName":"Realistic Chinese name e.g. 王经理 (Wang)","managerPhone":"+86 138-XXXX-XXXX realistic format"},
+{"name":"Second manufacturer matching region","type":"manufacturer","regionMatch":true,"rating":4.7,"reviews":1876,"monthlySales":"28,400","priceMin":10.2,"priceMax":18.5,"priceVsAvg":"average","moq":"100 pcs (in ${L})","capital":"500万","years":12,"location":"Ningbo, Zhejiang","staff":"100–200","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 139-XXXX-XXXX"},
+{"name":"Third manufacturer","type":"manufacturer","regionMatch":true,"rating":4.6,"reviews":1502,"monthlySales":"19,300","priceMin":9.0,"priceMax":16.0,"priceVsAvg":"below","moq":"300 pcs (in ${L})","capital":"200万","years":6,"location":"matching region city","staff":"30–50","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 137-XXXX-XXXX"},
+{"name":"Fourth manufacturer, possibly from a DIFFERENT region (set regionMatch false) if realistic","type":"manufacturer","regionMatch":false,"rating":4.5,"reviews":980,"monthlySales":"12,100","priceMin":12.0,"priceMax":20.0,"priceVsAvg":"above","moq":"500 pcs (in ${L})","capital":"150万","years":4,"location":"a plausible but non-primary region","staff":"20–50","cert":"","managerName":"Realistic Chinese name","managerPhone":"+86 136-XXXX-XXXX"},
 {"name":"Chinese trading company (not factory)","type":"trader","regionMatch":false,"rating":4.5,"reviews":892,"priceMin":15.0,"priceMax":28.0,"priceVsAvg":"above","years":4,"location":"Guangzhou, GD","managerName":"Realistic Chinese name","managerPhone":"+86 135-XXXX-XXXX"}
 ],
-"outreachMessageCN":"A polite, professional WeChat/1688 message IN CHINESE asking: are you the actual manufacturer or a trading company, what is your MOQ, and please share contact details. Keep it short, 3-4 sentences, business tone.",
-"outreachMessageRU":"Russian translation of the same message for the user's reference"}
+"outreachMessageCN":"A polite, professional WeChat/1688 message ALWAYS IN CHINESE (this is sent to a Chinese supplier, never translate this one) asking: are you the actual manufacturer or a trading company, what is your MOQ, and please share contact details. Keep it short, 3-4 sentences, business tone.",
+"outreachMessageTranslated":"Translation of the outreach message into ${L}, for the user's own reference before sending"}
 
 All prices (wholesaleLow/High/Avg and every supplier's priceMin/priceMax) MUST be in Chinese Yuan (CNY) and consistent in magnitude with each other. Return exactly 5 suppliers (4 manufacturers + 1 trader). Use realistic Chinese company names, cities, pricing, and manager names appropriate for THIS specific product type and its real-world manufacturing region.`;
 
@@ -220,38 +227,7 @@ All prices (wholesaleLow/High/Avg and every supplier's priceMin/priceMax) MUST b
   }
 });
 
-// ── Generate Ozon Card (free bonus — does not consume daily limit) ─────────
-app.post('/api/generate-card', requireAuth, async (req, res) => {
-  try {
-    if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API ключ не настроен на сервере' });
-    const { productName, productNameCN, category, material, style, application } = req.body;
-    if (!productName) return res.status(400).json({ error: 'Нет данных о товаре' });
-
-    const prompt = `You are an expert Russian e-commerce copywriter specializing in Ozon/Wildberries product listings. Based on this product data, write a high-converting Ozon product card. Return ONLY raw JSON (no markdown, no backticks):
-{"title":"SEO title for Ozon, max 60 chars, in Russian, includes key search terms","shortDescription":"1-2 sentence hook in Russian","bullets":["feature 1 in Russian","feature 2","feature 3","feature 4"],"fullDescription":"3-4 paragraph persuasive Russian description for the Ozon card, selling benefits not just specs, written in natural Russian marketplace style","seoKeywords":["keyword1","keyword2","keyword3","keyword4","keyword5"]}
-
-Product: ${productName} (${productNameCN || ''}). Category: ${category || ''}. Material: ${material || ''}. Style: ${style || ''}. Use cases: ${application || ''}.`;
-
-    const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1200, messages: [{ role: 'user', content: prompt }] })
-    });
-    if (!apiRes.ok) {
-      const e = await apiRes.json().catch(() => ({}));
-      throw new Error(e.error?.message || 'Anthropic API error ' + apiRes.status);
-    }
-    const apiData = await apiRes.json();
-    const txt = apiData.content.filter(b => b.type === 'text').map(b => b.text).join('');
-    const result = JSON.parse(txt.replace(/```json|```/g, '').trim());
-    res.json(result);
-  } catch (e) {
-    console.error('Generate-card error:', e.message);
-    res.status(500).json({ error: e.message || 'Ошибка генерации карточки' });
-  }
-});
-
-// ── Market Fit Analysis — Pro tier only ──────────────────────────────────────
+// ── Market Fit Analysis — Pro tier only (currently open to all for testing) ──
 app.post('/api/market-fit', requireAuth, async (req, res) => {
   try {
     const user = await resetIfNewDay(req.user.id);
@@ -262,13 +238,14 @@ app.post('/api/market-fit', requireAuth, async (req, res) => {
       });
     }
     if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API ключ не настроен на сервере' });
-    const { productName, category, material, style, application, priceAnalysis } = req.body;
+    const { productName, category, material, style, application, priceAnalysis, lang } = req.body;
     if (!productName) return res.status(400).json({ error: 'Нет данных о товаре' });
+    const L = langName(lang);
 
     const priceHint = priceAnalysis ? `Wholesale price range: $${priceAnalysis.usdLow}-${priceAnalysis.usdHigh} (¥${priceAnalysis.wholesaleLow}-${priceAnalysis.wholesaleHigh}).` : '';
 
-    const prompt = `You are a senior e-commerce market analyst. Based on your general training knowledge of market trends (this is an ESTIMATE, not live marketplace scraping — be calibrated and honest), assess this product's sales potential on 4 platforms. Return ONLY raw JSON (no markdown, no backticks):
-{"platforms":[{"name":"eBay","verdict":"Высокий потенциал / Средний / Низкий","reason":"1 sentence in Russian"},{"name":"Shopify / дропшиппинг","verdict":"...","reason":"..."},{"name":"Wildberries","verdict":"...","reason":"..."},{"name":"Ozon","verdict":"...","reason":"..."}],"competitionScore":7,"competitionLabel":"Russian label e.g. Высокая конкуренция / Средняя конкуренция / Низкая конкуренция","summary":"2-3 sentences in Russian summarizing overall market fit and a practical recommendation"}
+    const prompt = `You are a senior e-commerce market analyst. Based on your general training knowledge of market trends (this is an ESTIMATE, not live marketplace scraping — be calibrated and honest), assess this product's sales potential on 4 platforms. Return ONLY raw JSON (no markdown, no backticks). Write all natural-language text values in ${L}:
+{"platforms":[{"name":"eBay","verdict":"High potential / Medium / Low (in ${L})","verdictLevel":"high OR medium OR low (this exact English word, NEVER translate, used internally for badge color)","reason":"1 sentence in ${L}"},{"name":"Shopify / dropshipping","verdict":"...","verdictLevel":"...","reason":"..."},{"name":"Wildberries","verdict":"...","verdictLevel":"...","reason":"..."},{"name":"Ozon","verdict":"...","verdictLevel":"...","reason":"..."}],"competitionScore":7,"competitionLabel":"label in ${L} e.g. High competition / Medium / Low","summary":"2-3 sentences in ${L} summarizing overall market fit and a practical recommendation"}
 
 Product: ${productName}. Category: ${category||''}. Material: ${material||''}. Style: ${style||''}. Use cases: ${application||''}. ${priceHint}`;
 
