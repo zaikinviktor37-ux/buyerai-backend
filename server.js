@@ -16,6 +16,9 @@ const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const PLAN_LIMITS = { free: 5, basic: 20, pro: 50, unlimited: 9999 };
 const PLAN_NAMES = { free: 'Бесплатный', basic: 'Базовый', pro: 'Про', unlimited: 'Безлимит' };
 const PRO_PLANS = ['pro', 'unlimited'];
+// TESTING MODE: market-fit analysis open to everyone right now so Viktor and beta
+// testers can try it without manual plan upgrades. Flip to false to re-enable Pro gating.
+const MARKET_FIT_OPEN_FOR_ALL = true;
 
 // ── Live FX rate via CBR (CNY → USD cross rate) ──────────────────────────────
 let fxCache = { rate: null, ts: 0 };
@@ -249,7 +252,7 @@ Product: ${productName} (${productNameCN || ''}). Category: ${category || ''}. M
 app.post('/api/market-fit', requireAuth, async (req, res) => {
   try {
     const user = await resetIfNewDay(req.user.id);
-    if (!PRO_PLANS.includes(user.plan)) {
+    if (!MARKET_FIT_OPEN_FOR_ALL && !PRO_PLANS.includes(user.plan)) {
       return res.status(403).json({
         error: 'Анализ маркетплейсов доступен на тарифе «Про» и выше. Напиши @VIKTOR_CN1 в Telegram для апгрейда.',
         upgradeRequired: true
