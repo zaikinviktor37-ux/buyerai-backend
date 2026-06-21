@@ -19,6 +19,9 @@ const PRO_PLANS = ['pro', 'unlimited'];
 // TESTING MODE: market-fit analysis open to everyone right now so Viktor and beta
 // testers can try it without manual plan upgrades. Flip to false to re-enable Pro gating.
 const MARKET_FIT_OPEN_FOR_ALL = true;
+// TESTING MODE: daily photo-analysis limit disabled for now during testing.
+// Flip to false to re-enable the per-plan daily limits below.
+const USAGE_LIMITS_OPEN_FOR_ALL = true;
 
 // ── Live FX rate via CBR (CNY → USD cross rate) ──────────────────────────────
 let fxCache = { rate: null, ts: 0 };
@@ -109,7 +112,7 @@ app.post('/api/register', async (req, res) => {
     );
     const user = rows[0];
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
-    res.json({ token, user: { email: user.email, plan: user.plan, daily_count: 0, limit: PLAN_LIMITS[user.plan] } });
+    res.json({ token, user: { email: user.email, plan: user.plan, daily_count: 0, limit: PLAN_LIMITS[user.plan], unlimited_testing: USAGE_LIMITS_OPEN_FOR_ALL } });
   } catch (e) {
     if (e.code === '23505') return res.status(400).json({ error: 'Этот email уже зарегистрирован' });
     console.error('Register error:', e.message);
@@ -127,7 +130,7 @@ app.post('/api/login', async (req, res) => {
     }
     const fresh = await resetIfNewDay(user.id);
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
-    res.json({ token, user: { email: user.email, plan: user.plan, daily_count: fresh.daily_count, limit: PLAN_LIMITS[user.plan] || 5 } });
+    res.json({ token, user: { email: user.email, plan: user.plan, daily_count: fresh.daily_count, limit: PLAN_LIMITS[user.plan] || 5, unlimited_testing: USAGE_LIMITS_OPEN_FOR_ALL } });
   } catch (e) {
     console.error('Login error:', e.message);
     res.status(500).json({ error: 'Ошибка сервера' });
@@ -137,7 +140,7 @@ app.post('/api/login', async (req, res) => {
 app.get('/api/me', requireAuth, async (req, res) => {
   try {
     const user = await resetIfNewDay(req.user.id);
-    res.json({ email: user.email, plan: user.plan, plan_name: PLAN_NAMES[user.plan], daily_count: user.daily_count, limit: PLAN_LIMITS[user.plan] || 5 });
+    res.json({ email: user.email, plan: user.plan, plan_name: PLAN_NAMES[user.plan], daily_count: user.daily_count, limit: PLAN_LIMITS[user.plan] || 5, unlimited_testing: USAGE_LIMITS_OPEN_FOR_ALL });
   } catch (e) {
     res.status(500).json({ error: 'Ошибка сервера' });
   }
@@ -149,7 +152,7 @@ app.post('/api/analyze', requireAuth, async (req, res) => {
     const user = await resetIfNewDay(req.user.id);
     const limit = PLAN_LIMITS[user.plan] || 5;
 
-    if (user.daily_count >= limit) {
+    if (!USAGE_LIMITS_OPEN_FOR_ALL && user.daily_count >= limit) {
       return res.status(429).json({
         error: `Лимит исчерпан: ${limit} запросов/день на тарифе «${PLAN_NAMES[user.plan]}». Напиши @VIKTOR_CN1 в Telegram для апгрейда.`,
         limitReached: true
@@ -210,7 +213,7 @@ All prices (wholesaleLow/High/Avg and every supplier's priceMin/priceMax) MUST b
 
     await pool.query('UPDATE users SET daily_count = daily_count + 1 WHERE id = $1', [user.id]);
 
-    res.json({ ...result, usage: { count: user.daily_count + 1, limit, plan: user.plan } });
+    res.json({ ...result, usage: { count: user.daily_count + 1, limit, plan: user.plan, unlimited_testing: USAGE_LIMITS_OPEN_FOR_ALL } });
   } catch (e) {
     console.error('Analyze error:', e.message);
     res.status(500).json({ error: e.message || 'Ошибка анализа' });
